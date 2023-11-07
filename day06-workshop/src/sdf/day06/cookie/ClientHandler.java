@@ -7,9 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.List;
 
-public class ClientHandler {
+public class ClientHandler implements Runnable {
 
    private final Socket socket;
    private final Cookie cookie;
@@ -17,6 +16,18 @@ public class ClientHandler {
    public ClientHandler(Socket client, Cookie cookie) {
       this.socket = client;
       this.cookie = cookie;
+   }
+
+   @Override
+   public void run() {
+      // entry point of the thread
+      System.out.printf("Starting thread...\n");
+      try {
+         start();
+      } catch (Exception ex) {
+         ex.printStackTrace();
+      }
+
    }
 
    public void start() throws Exception {
