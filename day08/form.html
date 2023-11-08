@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>BBQ RSVP</title>
+      <link rel="stylesheet" href="/form.css">
+   </head>
+   <body>
+
+      <h2>RSVP</h2>
+
+      <h3><a href="/">Back</a></h3>
+
+      <form>
+         <table>
+            <tr>
+               <td> Name: </td>
+               <td>
+                  <input type="text" name="name" 
+                     placeholder="Please enter your name" required>
+               </td>
+            </tr>
+            <tr>
+               <td> Email: </td>
+               <td>
+                  <input type="email" name="email" 
+                     placeholder="Your email" required>
+               </td>
+            </tr>
+            <tr>
+               <td>Pax:</td>
+               <td>
+                  <select name="pax" id="">
+                     <option value="1">One</option>
+                     <option value="2" selected>Two</option>
+                     <option value="3">Three</option>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td> Vegetarian: </td>
+               <td>
+                  Meat! <input type="radio" name="meat-eater" id="">
+                  No-Meat! <input type="radio" name="meat-eater" id="">
+               </td>
+            </tr>
+            <tr>
+               <td> Potluck: </td>
+               <td>
+                  Chicken <input type="checkbox" name="chicken">
+                  Mutton <input type="checkbox" name="mutton">
+                  Salad <input type="checkbox" name="salad">
+                  Wine <input type="checkbox" name="wine">
+               </td>
+            </tr>
+            <tr>
+               <td> Comments: </td>
+               <td>
+                  <textarea name="comments" cols="30" rows="3"></textarea>
+               </td>
+            </tr>
+            <tr>
+               <td></td>
+               <td>
+                  <button type="reset">Clear</button>
+                  <button type="submit">RSVP!</button>
+               </td>
+            </tr>
+         </table>
+      </form>
+      
+   </body>
+</html>

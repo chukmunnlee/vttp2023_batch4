@@ -1,0 +1,10 @@
+/* element selector */
+body {
+   font-size: 1.2em;
+   font-family: monospace;
+}
+
+h2 {
+   color: pink;
+   text-decoration: underline;
+}
