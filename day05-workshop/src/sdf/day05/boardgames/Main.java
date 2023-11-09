@@ -3,6 +3,8 @@ package sdf.day05.boardgames;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,6 +48,42 @@ public class Main {
                System.out.printf("  %s: %s\n", bg.getName(), bg.getYear());
          }
       }
+   }
+
+   public static void categorize(BufferedReader br) throws Exception {
+
+      // Skip the first line
+      br.readLine();
+
+      String line;
+      while (null != (line = br.readLine())) {
+         String[] columns = line.trim().split(",");
+         Boardgame game = new Boardgame(columns[COL_NAME]
+               , columns[COL_YEAR] , Integer.parseInt(columns[COL_MIN])
+               , Integer.parseInt(columns[COL_MAX]));
+
+         Map<Integer, List<Boardgame>> gameByDuration = new HashMap<>();
+
+         int dur = game.getDuration();
+         int key = 0;
+         if ((dur >= 30) && (dur < 60)) { // 0
+            key = 0;
+            List<Boardgame> games = gameByDuration.get(key);
+            if (null == games) {
+               games = new LinkedList<>();
+               gameByDuration.put(key, games);
+            } 
+            games.add(game);
+         } else if ((dur >= 60) && (dur < 120)) { // 1
+            key = 1;
+            List<Boardgame> games = gameByDuration.computeIfAbsent(
+                  key, k -> new LinkedList<>());
+            games.add(game);
+         } else if ((dur >= 120) && (dur < 180)) // 2
+            ;
+         // else > 180 // 3
+      }
+
    }
 
 }
