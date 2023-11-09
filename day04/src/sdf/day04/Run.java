@@ -6,8 +6,17 @@ import java.util.List;
 public class Run {
 
    //static Operation add = (x, y) -> x + y;
+	//
+	public static int apply(Operation oper, int x, int y) {
+		return oper.perform(x, y);
+	}
 
    public static void main(String[] args) {
+
+		Operation o = (x, y) -> x * y;
+
+		apply(o, 3, 4);
+
       List<Integer> nums = new LinkedList<>();
       for (int i = 1; i <= 10; i++)
          nums.add(i);
