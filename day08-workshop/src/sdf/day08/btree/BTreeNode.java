@@ -20,6 +20,11 @@ public class BTreeNode {
    public void setRight(BTreeNode right) { this.right = right; }
    public boolean hasRight() { return null != right; }
 
+	@Override
+	public String toString() {
+		return "node=%d".formatted(value);
+	}
+
 
    
 }

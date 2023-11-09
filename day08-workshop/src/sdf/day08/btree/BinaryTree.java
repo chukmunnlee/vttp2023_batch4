@@ -29,25 +29,26 @@ public class BinaryTree {
    public void printTree() {
       BTreeNode curr = root;
       Stack<BTreeNode> stack = new Stack<>();
-      boolean start = true;
-      while (start || !stack.empty()) {
-         start = false;
+		stack.push(curr);
+      while (!stack.empty()) {
          // push a
-         stack.push(curr);
+			curr = stack.peek();
+			System.out.printf(">> stack: %s\n", stack);
          // push b
          if (curr.hasLeft()) {
-            curr = curr.getLeft();
+				stack.push(curr.getLeft());
             continue;
          }
          // print a
-         System.out.printf(" %d", curr.getValue());
+         System.out.printf("** %d", curr.getValue());
          // push c
          if (curr.hasRight()) {
-            curr = curr.getRight();
+				stack.push(curr.getRight());
             continue;
-         }
+         } else {
+				stack.pop();
+			}
          // pop a
-         stack.pop();
       }
       System.out.println();
 

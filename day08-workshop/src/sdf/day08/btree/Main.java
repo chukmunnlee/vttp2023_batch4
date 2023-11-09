@@ -22,6 +22,7 @@ public class Main {
 			bt.add(nums.get(i));
 		}
 
-		bt.printTreeWithRecursion();
+		//bt.printTreeWithRecursion();
+		bt.printTree();
 	}
 }
