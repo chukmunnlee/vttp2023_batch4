@@ -50,8 +50,8 @@ public class World {
 
 				switch (terms[0]) {
 					case ROOM:
-						saveRoom(room);
 						room = new Room(terms[1]);
+						saveRoom(room);
 						break;
 
 					case NAME:
@@ -69,13 +69,10 @@ public class World {
 					default:
 				}
 			}
-
-			saveRoom(room);
 		}
 	}
 
 	private void saveRoom(Room room) {
-		if (null != room)
-			rooms.put(room.getRoomId(), room);
+		rooms.put(room.getRoomId(), room);
 	}
 }

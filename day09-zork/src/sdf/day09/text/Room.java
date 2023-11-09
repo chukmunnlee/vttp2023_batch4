@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 public class Room {
 
    private final String roomId;
@@ -18,6 +16,12 @@ public class Room {
    private List<String> items = new LinkedList<>();
 
    public Room(String roomId) { this.roomId = roomId; }
+   public Room(String roomId) { this.roomId = roomId; }
+   public Room(String roomId, String name) { 
+		this.roomId = roomId; 
+		this.name = name;
+	}
+
 
    public String getRoomId() { return roomId; }
 
