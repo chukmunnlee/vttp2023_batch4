@@ -1,0 +1,9 @@
+# Name: glider
+GRID 20 10
+# Starting position X, Y
+START 0 0
+# Data indicates the start of initial configuration
+DATA
+ *
+  *
+***

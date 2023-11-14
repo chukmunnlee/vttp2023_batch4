@@ -1,0 +1,7 @@
+# Name: blinker
+GRID 5 5
+# Starting position X, Y
+START 1 2
+# Data indicates the start of initial configuration
+DATA
+***
