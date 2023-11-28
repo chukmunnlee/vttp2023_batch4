@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+   </head>
+   <body>
+
+      <h1>Christmas Party RSVP</h1>
+
+      <form action="/rsvp">
+         <table>
+            <tr>
+               <td>Name:</td>
+               <td>
+                  <input type="text" name="name" size="30">
+               </td>
+            </tr>
+            <tr>
+               <td>Contact:</td>
+               <td>
+                  <input type="tel" name="phone" size="30">
+               </td>
+            </tr>
+            <tr>
+               <td>Pax:</td>
+               <td>
+                  <input type="number" name="pax" min="1" max="5" size="30">
+               </td>
+            </tr>
+            <tr>
+               <td>Vegan:</td>
+               <td>
+                  <input type="checkbox" name="vegan" checked>
+               </td>
+            </tr>
+            <tr>
+               <td>Comments:</td>
+               <td>
+                  <textarea name="comments" cols="30" rows="4"></textarea>
+               </td>
+            </tr>
+            <tr>
+               <td></td>
+               <td>
+                  <button type="submit" formmethod="GET">
+                     RSVP by GET
+                  </button>
+                  <button type="submit" formmethod="POST">
+                     RSVP by POST
+                  </button>
+               </td>
+            </tr>
+         </table>
+      </form>
+      
+   </body>
+</html>
