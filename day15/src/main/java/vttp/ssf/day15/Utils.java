@@ -10,6 +10,8 @@ public class Utils {
 
    public static final String ATTR_CART = "cart";
 
+   public static final String BEAN_REDIS = "myredis";
+
    public static List<Item> getCart(HttpSession sess) {
       List<Item> cart = (List<Item>)sess.getAttribute(ATTR_CART);
       if (null == cart) {
