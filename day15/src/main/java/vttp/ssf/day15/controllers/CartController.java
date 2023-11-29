@@ -25,7 +25,7 @@ public class CartController {
 
    @PostMapping(path = "/checkout")
    public ModelAndView postCartCheckout(HttpSession sess) {
-      ModelAndView mav = new ModelAndView("index");
+      ModelAndView mav = new ModelAndView("cart");
 
       List<Item> cart = Utils.getCart(sess);
       System.out.printf("Checking out cart: %s\n", cart);
@@ -45,7 +45,7 @@ public class CartController {
       System.out.printf("item: %s\n", item);
       System.out.printf("error: %b\n", bindings.hasErrors());
 
-      ModelAndView mav = new ModelAndView("index");
+      ModelAndView mav = new ModelAndView("cart");
 
       if (bindings.hasErrors()) {
          mav.setStatus(HttpStatusCode.valueOf(400));

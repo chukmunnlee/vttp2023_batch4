@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import vttp.ssf.day15.models.Item;
 
-@Controller
-@RequestMapping(path={"/", "/index.html"})
+//@Controller
+//@RequestMapping(path={"/", "/index.html"})
 public class LandingPageController {
 
-   @GetMapping
+   //@GetMapping
    public String getIndex(Model model) {
 
       model.addAttribute("item", new Item());
