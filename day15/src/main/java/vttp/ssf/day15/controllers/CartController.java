@@ -1,11 +1,16 @@
 package vttp.ssf.day15.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -15,6 +20,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vttp.ssf.day15.Utils;
 import vttp.ssf.day15.models.Item;
+import vttp.ssf.day15.repositories.CartRepository;
 
 @Controller
 @RequestMapping(path="/cart")
@@ -22,6 +28,19 @@ public class CartController {
 
    public static final String ATTR_ITEM = "item";
    public static final String ATTR_CART = "cart";
+
+   @Autowired 
+   private CartRepository cartRepo;
+
+   @GetMapping
+   public String getCart(@RequestParam String name) {
+
+      if (cartRepo.hasCart(name)) {
+
+      }
+
+      return "cart";
+   }
 
    @PostMapping(path = "/checkout")
    public ModelAndView postCartCheckout(HttpSession sess) {
