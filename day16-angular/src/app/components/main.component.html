@@ -1,0 +1,53 @@
+<h2>Add Task</h2>
+
+<form [formGroup]="form" (submit)="processForm()">
+
+  <table>
+    <tr>
+      <td>Task:</td>
+      <td>
+        <input type="text" size="30" placeholder="Task name"
+            formControlName="name" class="mandatory">
+      </td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td>
+        <input type="text" size="30" placeholder="Task description"
+            formControlName="description">
+      </td>
+    </tr>
+    <tr>
+      <td>Priority:</td>
+      <td>
+        <select formControlName="priority" class="mandatory">
+          <option value="0">Low</option>
+          <option value="1">Medium</option>
+          <option value="2">High</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit" [disabled]="form.invalid">
+          Add Task
+        </button>
+      </td>
+    </tr>
+  </table>
+
+</form>
+
+@if (result$ | async; as resp) {
+  <table>
+    <tr>
+      <td>Task id:</td>
+      <td> <code>{{ resp.id }}</code> </td>
+    </tr>
+    <tr>
+      <td>Created on:</td>
+      <td>{{ resp.createTime | date }}</td>
+    </tr>
+  </table>
+}
