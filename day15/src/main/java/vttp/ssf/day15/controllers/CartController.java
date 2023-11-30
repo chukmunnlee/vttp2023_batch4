@@ -72,11 +72,15 @@ public class CartController {
    }
 
    @PostMapping
-   public ModelAndView postCart(@Valid @ModelAttribute(ATTR_ITEM) Item item
-         , BindingResult bindings, @RequestParam String username, HttpSession sess) {
+   public ModelAndView postCart(@Valid @ModelAttribute(ATTR_ITEM) Item item,
+         BindingResult bindings, HttpSession sess,
+         @RequestParam String username, @RequestBody String body) {
 
       System.out.printf("item: %s\n", item);
       System.out.printf("error: %b\n", bindings.hasErrors());
+
+      System.out.printf(">>> @RequestParam: %s\n", username);
+      System.out.printf(">>> @RequestBody: %s\n", body);
 
       ModelAndView mav = new ModelAndView("cart");
 
