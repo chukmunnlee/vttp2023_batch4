@@ -12,6 +12,9 @@ public class Utils {
 
    public static final String BEAN_REDIS = "myredis";
 
+   public static final Integer F_NAME = 0;
+   public static final Integer F_QUANTITY = 1;
+
    public static List<Item> getCart(HttpSession sess) {
       List<Item> cart = (List<Item>)sess.getAttribute(ATTR_CART);
       if (null == cart) {

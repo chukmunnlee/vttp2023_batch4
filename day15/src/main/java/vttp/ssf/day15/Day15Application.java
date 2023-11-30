@@ -3,6 +3,7 @@ package vttp.ssf.day15;
 import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -70,11 +71,13 @@ public class Day15Application implements CommandLineRunner {
 		//System.out.printf(">>>> item[1]: %s\n", item);
 
 		// Map
-		//HashOperations<String, String, String> opsHash = template.opsForHash();
-		//opsHash.put("c001", "name", "fred");
-		//opsHash.put("c001", "email", "fred@gmail.com");
-		//opsHash.put("c002", "name", "barney");
-		//opsHash.put("c002", "email", "barney@gmail.com");
+		// HashOperations<String, String, String> opsHash = template.opsForHash();
+		// opsHash.put("c001", "name", "fred");
+		// opsHash.put("c001", "email", "fred@gmail.com");
+		// opsHash.put("c002", "name", "barney");
+		// opsHash.put("c002", "email", "barney@gmail.com");
+		// Map<String, String> m = opsHash.entries("c001");
+		// System.out.printf(">>> %s\n", m);
 
 		//String empName = opsHash.get("c001", "name");
 		//System.out.printf(">>> empName: %s\n", empName);
