@@ -78,6 +78,11 @@ public class Day16Application implements CommandLineRunner {
 				System.out.printf("STREAM: %s\n", jo.toString());
 			});
 
+
+		for (String s: args) {
+			System.out.printf(">> ARGS: %s\n", s);
+		}
+
 	}
 
 }

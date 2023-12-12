@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+	</head>
+	<body>
+
+		<h2>
+			News on <span data-th-text="${category}"></span>
+			for <span data-th-text="${country}"></span>
+		</h2>
+
+		<h4> <a data-th-href="@{/}">Back</a> </h4>
+
+		<div data-th-if="${#lists.isEmpty(news)}">
+			<h3>No News</h3>
+		</div>
+		<div data-th-unless="${#lists.isEmpty(news)}">
+			<article data-th-each="n: ${news}">
+
+				<h3 data-th-text="${n.title}"></h3>
+
+				<div>
+					<img data-th-src="${n.image}" width="250px">
+				</div>
+
+				<div>
+					By <i data-th-text="${n.author}"></i>
+				</div>
+
+				<p data-th-text="${n.description}"> </p>
+
+				<div>
+					Publish: <span data-th-text="${n.publish}"></span>
+					Read article <a data-th-href="${n.url}" target="_blank">here</a>
+				</div>
+
+			</article>
+		</div>
+		
+	</body>
+</html>

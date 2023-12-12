@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Dov Bear</title>
+		<link rel="stylesheet" href="/static/style.css">
+	</head>
+	<body>
+		<div class="center-it">
+			<h1><code>{{ .instanceName }} {{ .instanceHash }}</code></h1>
+		</div>
+
+		{{ range .dovs }}
+			<div class="center-it">
+				<img src="/static/images/dov{{ . }}.gif">
+			</div>
+		{{ end }}
+
+	</body>
+</html>

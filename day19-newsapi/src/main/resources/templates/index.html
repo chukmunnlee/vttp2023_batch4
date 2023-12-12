@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+	</head>
+
+		<h1>News of the World</h1>
+
+		<form method="GET" data-th-action="@{/news}">
+			<table>
+				<tr>
+					<td>Country:</td>
+					<td>
+						<select name="country">
+							<option  data-th-each="co: ${codes}"
+									data-th-value="${co.code}" data-th-text="${co.name}">
+								</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Category:</td>
+					<td>
+						<select name="category">
+							<option data-th-each="cat: ${categories}"
+									data-th-value="${cat}" data-th-text="${#strings.capitalize(cat)}">
+								</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button type="submit"> Get News </button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+	<body>
+	</body>
+</html>
