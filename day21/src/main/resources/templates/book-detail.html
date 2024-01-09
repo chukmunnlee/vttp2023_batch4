@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title data-th-text="${book.title}"></title>
+   </head>
+   <body>
+
+      <table>
+         <tr>
+            <td>Title:</td>
+            <td>
+               <span data-th-text="${book.title}"></span>
+            </td>
+         </tr>
+         <tr>
+            <td>Authors:</td>
+            <td>
+               <span data-th-text="${book.authors}"></span>
+            </td>
+         </tr>
+         <tr>
+            <td>Description:</td>
+            <td>
+               <span data-th-text="${book.description}"></span>
+            </td>
+         </tr>
+         <tr>
+            <td></td>
+            <td>
+               <img data-th-src="${book.image}" width="200">
+            </td>
+         </tr>
+      </table>
+      
+   </body>
+</html>
