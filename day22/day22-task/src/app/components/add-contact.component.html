@@ -1,0 +1,33 @@
+<h2>Add Task</h2>
+
+<form [formGroup]="form" (submit)="process()">
+  <table>
+    <tr>
+      <td>Title:</td>
+      <td>
+        <input type="text" formControlName="title" size="30">
+      </td>
+    </tr>
+    <tr>
+      <td>Due Date:</td>
+      <td>
+        <input type="date" formControlName="dueDate" size="30">
+      </td>
+    </tr>
+    <tr>
+      <td>Priority:</td>
+      <td>
+        <input type="number" formControlName="priority" min="1" max="5">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button [routerLink]="['/']">Back</button>
+      </td>
+      <td>
+        <button type="submit">Add</button>
+      </td>
+    </tr>
+  </table>
+</form>
+

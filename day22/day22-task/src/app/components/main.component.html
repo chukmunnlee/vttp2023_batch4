@@ -1,7 +1,7 @@
 <h2>Task List</h2>
 
 <hr>
-  <button type="button">Add Task</button>
+  <button type="button" [routerLink]="['/add']">Add Task</button>
 <hr>
 
 @if (tasks$ | async; as tasks) {

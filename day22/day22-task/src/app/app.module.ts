@@ -7,19 +7,21 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main.component';
 import {TaskService} from './task.service';
+import { AddContactComponent } from './components/add-contact.component';
 
 const appRoutes: Routes = [
-  { path: '', component: MainComponent }
+  { path: '', component: MainComponent },
+  { path: 'add', component: AddContactComponent },
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent, AddContactComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [ TaskService ],
   bootstrap: [AppComponent]

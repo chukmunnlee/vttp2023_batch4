@@ -16,9 +16,7 @@ export class MainComponent implements OnInit {
   tasks$!: Observable<TaskSummary[]>
 
   ngOnInit(): void {
-
     this.tasks$ = this.taskSvc.getTaskSummaries()
-
   }
 
   onChange(e: Event) {

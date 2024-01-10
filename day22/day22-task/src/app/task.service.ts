@@ -1,7 +1,7 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable, inject} from "@angular/core";
-import {Observable} from "rxjs";
-import {Task, TaskStatus, TaskSummary} from "./models";
+import {Observable, firstValueFrom} from "rxjs";
+import {CreateTask, Task, TaskStatus, TaskSummary} from "./models";
 
 @Injectable()
 export class TaskService {
@@ -12,8 +12,8 @@ export class TaskService {
     return this.http.get<TaskSummary[]>('/api/tasks')
   }
 
-  createTask(task: Task): Observable<TaskStatus> {
-    return this.http.post<TaskStatus>('/api/task', task)
+  createTask(task: CreateTask): Promise<TaskStatus> {
+    return firstValueFrom(this.http.post<TaskStatus>('/api/task', task))
   }
 
   deleteTask(taskId: number): Observable<TaskStatus> {
