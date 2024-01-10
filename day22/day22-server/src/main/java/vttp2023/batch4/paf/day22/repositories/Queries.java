@@ -2,6 +2,12 @@ package vttp2023.batch4.paf.day22.repositories;
 
 public class Queries {
 
+   public static final String SQL_UPDATE_TASK_COMPLETED_BY_ID = """
+      update tasks 
+         set completed = ?
+         where task_id = ?
+   """;
+
    public static final String SQL_SELECT_TASK_AS_SUMMARY = """
       select task_id, title, completed from tasks
    """;

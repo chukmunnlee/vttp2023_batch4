@@ -17,7 +17,7 @@
       <tr>
         <td>{{ t.title }}</td>
         <td>
-          <button type="button"> X </button>
+          <button type="button" (click)="deleteTask(t.taskId)"> X </button>
         </td>
         <td>
           <input type="checkbox" [attr.data-taskId]="t.taskId" (change)="onChange($event)" [checked]="t.completed">

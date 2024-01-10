@@ -17,6 +17,10 @@ public class TaskRepository {
 	@Autowired
 	private JdbcTemplate template;
 
+	public boolean updateTaskStatus(int taskId, boolean completed) {
+		return template.update(Queries.SQL_UPDATE_TASK_COMPLETED_BY_ID, completed, taskId) > 0;
+	}
+
 	public List<TaskSummary> getTasksAsSummaries() {
 
 		SqlRowSet rs = template.queryForRowSet(Queries.SQL_SELECT_TASK_AS_SUMMARY);

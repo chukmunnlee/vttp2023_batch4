@@ -14,6 +14,10 @@ public class TaskService {
    @Autowired
    private TaskRepository taskRepo;
 
+	public boolean updateTaskStatus(int taskId, boolean completed) {
+      return this.taskRepo.updateTaskStatus(taskId, completed);
+   }
+
    public List<TaskSummary> getTasksAsSummaries() {
       return this.taskRepo.getTasksAsSummaries();
    }

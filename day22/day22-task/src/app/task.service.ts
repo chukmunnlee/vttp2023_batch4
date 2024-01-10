@@ -16,8 +16,9 @@ export class TaskService {
     return firstValueFrom(this.http.post<TaskStatus>('/api/task', task))
   }
 
-  deleteTask(taskId: number): Observable<TaskStatus> {
-    return this.http.delete<TaskStatus>(`/api/task/${taskId}`)
+  deleteTask(taskId: number): Promise<TaskStatus> {
+    return firstValueFrom(
+      this.http.delete<TaskStatus>(`/api/task/${taskId}`))
   }
 
   updateStatus(taskId: number, completed: boolean): Observable<TaskStatus> {

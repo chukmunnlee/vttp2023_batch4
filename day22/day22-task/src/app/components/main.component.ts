@@ -19,6 +19,16 @@ export class MainComponent implements OnInit {
     this.tasks$ = this.taskSvc.getTaskSummaries()
   }
 
+  deleteTask(taskId: number) {
+    this.taskSvc.deleteTask(taskId)
+      .then(() => {
+        this.tasks$ = this.taskSvc.getTaskSummaries()
+      })
+      .catch(error => {
+        console.error('error: ', error)
+      })
+  }
+
   onChange(e: Event) {
     // @ts-ignore
     const checked: boolean = !!e.target.checked
