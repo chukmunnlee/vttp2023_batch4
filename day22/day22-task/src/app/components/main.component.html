@@ -1,0 +1,31 @@
+<h2>Task List</h2>
+
+<hr>
+  <button type="button">Add Task</button>
+<hr>
+
+@if (tasks$ | async; as tasks) {
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Delete</th>
+        <th>Complete</th>
+      </tr>
+    </thead>
+    @for (t of tasks; track t.taskId) {
+      <tr>
+        <td>{{ t.title }}</td>
+        <td>
+          <button type="button"> X </button>
+        </td>
+        <td>
+          <input type="checkbox" [attr.data-taskId]="t.taskId" (change)="onChange($event)" [checked]="t.completed">
+        </td>
+      </tr>
+    }
+  </table>
+} @else {
+  <h3>You have no outstanding task</h3>
+}
+
