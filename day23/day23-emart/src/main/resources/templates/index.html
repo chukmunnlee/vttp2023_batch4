@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+   </head>
+   <body>
+
+      <h2>Purchase Order</h2>
+
+		<form method="POST" data-th-action="@{/order}" data-th-object="${po}">
+         <table>
+            <tr>
+               <td>Name: </td>
+               <td>
+						<input type="text" name="name" size="30" data-th-field="*{name}">
+               </td>
+            </tr>
+            <tr>
+               <td>Address: </td>
+               <td>
+						<input type="text" size="30" data-th-field="*{address}">
+               </td>
+            </tr>
+				<tr>
+					<td>Item: </td>
+					<td>
+						<input type="text" name="item" size="30">
+					</td>
+				</tr>
+				<tr>
+					<td>Quantity: </td>
+					<td>
+						<input type="number" name="quantity" size="10" min="1">
+					</td>
+				</tr>
+         </table>
+
+			<div data-th-if="${#lists.isEmpty(po.lineItems)}">
+				<h3>Your cart is empty</h3>
+         </div>
+			<div data-th-unless="${#lists.isEmpty(po.lineItems)}">
+				<table>
+					<thead>
+						<tr>
+							<th>Item</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-th-each="li: ${po.lineItems}">
+							<td>
+								<span data-th-text="${li.item}"></span>
+							</td>
+							<td>
+								<span data-th-text="${li.quantity}"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+         </div>
+			<div>
+				<button type="submit" formmethod="POST" data-th-formaction="@{/checkout}"> 
+					Checkout 
+				</button>
+				<button type="submit">Add to Cart</button>
+			</div>
+      </form>
+      
+   </body>
+</html>
