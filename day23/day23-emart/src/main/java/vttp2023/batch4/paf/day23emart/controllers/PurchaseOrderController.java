@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpSession;
 import vttp2023.batch4.paf.day23emart.models.LineItem;
 import vttp2023.batch4.paf.day23emart.models.PurchaseOrder;
+import vttp2023.batch4.paf.day23emart.repositories.PurchaseOrderException;
 import vttp2023.batch4.paf.day23emart.services.PurchaseOrderService;
 
 @Controller
@@ -28,7 +28,7 @@ public class PurchaseOrderController {
 	@Autowired
 	private PurchaseOrderService poSvc;
 
-	@GetMapping(path = {"/", "/index.html"})
+	@GetMapping(path = { "/", "/index.html" })
 	public ModelAndView getIndex(HttpSession sess) {
 		ModelAndView mav = new ModelAndView("index.html");
 		PurchaseOrder po = getPurchaseOrder(sess);
@@ -45,7 +45,7 @@ public class PurchaseOrderController {
 
 		PurchaseOrder po = getPurchaseOrder(sess);
 
-		if (!poSvc.createPurchaseOrder(po)) {
+		if (!poSvc.createPurchaseOrderManualTx(po)) {
 			mav.setStatus(HttpStatusCode.valueOf(500));
 			mav.addObject(ATTR_PURCHASE_ORDER, po);
 
@@ -55,14 +55,29 @@ public class PurchaseOrderController {
 			mav.addObject(ATTR_PURCHASE_ORDER, new PurchaseOrder());
 		}
 
+		/*
+		try {
+			if (!poSvc.createPurchaseOrder(po)) {
+				mav.setStatus(HttpStatusCode.valueOf(500));
+				mav.addObject(ATTR_PURCHASE_ORDER, po);
+
+			} else {
+				mav.setStatus(HttpStatusCode.valueOf(200));
+				sess.invalidate();
+				mav.addObject(ATTR_PURCHASE_ORDER, new PurchaseOrder());
+			}
+		} catch (PurchaseOrderException ex) {
+			mav.setStatus(HttpStatusCode.valueOf(500));
+			mav.addObject(ATTR_PURCHASE_ORDER, po);
+		}
+		*/
+
 		return mav;
 	}
-	
 
 	@PostMapping("/order")
-	public ModelAndView postOrder(HttpSession sess
-			, @ModelAttribute PurchaseOrder inputPo
-			, @RequestBody MultiValueMap<String, String> form) {
+	public ModelAndView postOrder(HttpSession sess, @ModelAttribute PurchaseOrder inputPo,
+			@RequestBody MultiValueMap<String, String> form) {
 
 		PurchaseOrder po = getPurchaseOrder(sess);
 		po.setName(inputPo.getName());
@@ -90,7 +105,7 @@ public class PurchaseOrderController {
 			po = new PurchaseOrder();
 			sess.setAttribute(ATTR_PURCHASE_ORDER, po);
 		} else
-			po = (PurchaseOrder)o;
+			po = (PurchaseOrder) o;
 		return po;
 	}
 }
