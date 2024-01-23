@@ -1,0 +1,2 @@
+mongoimport --db=bgg -c games --type=json --jsonArray --file=game.json
+mongoimport --db=bgg -c comments --type=json --jsonArray --file=comments.json
