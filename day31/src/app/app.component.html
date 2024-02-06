@@ -1,0 +1,18 @@
+<h1><code>hello, world</code></h1>
+
+<h2>You have {{ images.length }} images</h2>
+
+<table>
+  <tr>
+    <td>
+      <app-picture *ngFor="let i of images"
+          [image]="i.url" [caption]="i.text"
+          (imageEvent)="imagePressed($event)">
+      </app-picture>
+    </td>
+    <td>
+      <app-history [history]="pastCaptions"></app-history>
+    </td>
+  </tr>
+</table>
+

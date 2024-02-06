@@ -1,0 +1,14 @@
+
+<h2>History</h2>
+
+<div *ngIf="history.length <= 0">
+  <h2>Nothing yet!</h2>
+</div>
+
+<div *ngIf="history.length > 0">
+  <ul>
+    <li *ngFor="let h of history">
+      {{ h }}
+    </li>
+  </ul>
+</div>

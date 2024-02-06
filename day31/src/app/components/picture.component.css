@@ -1,0 +1,6 @@
+.thumbnail {
+  width: 30vw;
+  height: auto;
+  border: 1px black dashed;
+  border-radius: 8px;
+}
