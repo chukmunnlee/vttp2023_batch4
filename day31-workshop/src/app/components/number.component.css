@@ -1,0 +1,22 @@
+.number {
+  width: 20vw;
+  height: auto;
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: .3em;
+}
+
+.number-row {
+  display: flex;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2em;
+}
+
+.button-item {
+  margin-left: .5em;
+  margin-bottom: .5em;
+}

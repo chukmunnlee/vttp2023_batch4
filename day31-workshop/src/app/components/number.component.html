@@ -1,0 +1,20 @@
+
+<div class="number-row">
+  <div>
+    <img src="/assets/numbers/number{{ value }}.jpg" class="number">
+  </div>
+  <div class="button-row">
+    <div class="button-item">
+      <button type="button" (click)="inc(1)">➕</button>
+    </div>
+    <div class="button-item">
+      <button type="button" (click)="inc(-1)">➖</button>
+    </div>
+    <div class="button-item">
+      <input type="checkbox" (click)="negative()">
+    </div>
+    <div class="button-item">
+      <button type="button" (click)="pressed()">✔️</button>
+    </div>
+  </div>
+</div>

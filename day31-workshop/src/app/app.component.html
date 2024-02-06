@@ -1,0 +1,7 @@
+
+<h1>The selected number {{ selection }}</h1>
+
+<app-number *ngFor="let i of numList"
+    [value]="i" [min]="i" [max]="i * 3"
+    (selected)="selectedNumber($event)">
+</app-number>
