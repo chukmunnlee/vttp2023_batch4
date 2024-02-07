@@ -1,0 +1,77 @@
+<h2>Todo Form</h2>
+
+<ul>
+  <li>pristine {{ todoForm.pristine }}</li>
+  <li>dirty {{ todoForm.dirty }}</li>
+  <li>invalid {{ todoForm.invalid }}</li>
+</ul>
+
+<form [formGroup]="todoForm" (submit)="processForm()">
+  <table>
+    <tr>
+      <td>Title</td>
+      <td>
+        <input type="text" size="30" formControlName="title">
+      </td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>
+        <input type="email" size="30" formControlName="email">
+      </td>
+    </tr>
+    <tr>
+      <td>Completed by</td>
+      <td>
+        <input type="date" size="30" formControlName="completedBy">
+      </td>
+    </tr>
+    <tr>
+      <td>Comments</td>
+      <td>
+        <textarea cols="30" rows="3" formControlName="comments"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit" [disabled]="isTodoInvalid()">Create</button>
+        <button type="button" (click)="addTask()">Add Task</button>
+      </td>
+    </tr>
+  </table>
+
+  <table border="1" *ngIf="taskArray.controls.length > 0">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Task</th>
+        <th>Priority</th>
+        <th>Completed</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody formArrayName="tasks">
+      <tr *ngFor="let t of taskArray.controls; let i = index" [formGroupName]="i">
+        <td>{{ i }}</td>
+        <td>
+          <input type="text" size="30" formControlName="task">
+        </td>
+        <td>
+          <select formControlName="priority">
+            <option value="0">Low</option>
+            <option value="1">Mid</option>
+            <option value="2">High</option>
+          </select>
+        </td>
+        <td>
+          <input type="checkbox" formControlName="completed">
+        </td>
+        <td>
+          <button type="button" (click)="deleteTask(i)">X</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</form>

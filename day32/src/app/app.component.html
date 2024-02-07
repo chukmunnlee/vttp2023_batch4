@@ -1,0 +1,12 @@
+
+<app-todo (newTodo)="newTodo($event)"></app-todo>
+
+<div *ngIf="todos.length > 0; else noTodos">
+  <div *ngFor="let t of todos">
+    <h4>{{ t | json }}</h4>
+  </div>
+</div>
+
+<ng-template #noTodos>
+  <h2>Looks like you are quite free</h2>
+</ng-template>
