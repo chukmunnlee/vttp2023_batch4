@@ -1,0 +1,7 @@
+<h1>Friends</h1>
+
+<div class="side-by-side">
+  <app-form [friend]="friend" (newFriend)="newFriend($event)"></app-form>
+  <app-friends-list [friends]="friends" (selectedFriend)="selectedFriend($event)">
+  </app-friends-list>
+</div>

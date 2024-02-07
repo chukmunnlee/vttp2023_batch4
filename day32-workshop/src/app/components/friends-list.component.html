@@ -1,0 +1,12 @@
+
+<div *ngIf="friends.length > 0; else noFriends">
+  <h3 *ngFor="let f of friends; let i = index" (click)="friendSelected(i)">
+    {{ f.name }}
+  </h3>
+</div>
+
+<ng-template #noFriends>
+  <h2 class="center-it">
+    <span>You have no friends</span> <img src="/assets/dov0.gif" width="150">
+  </h2>
+</ng-template>

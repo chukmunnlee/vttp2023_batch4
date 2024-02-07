@@ -1,0 +1,33 @@
+<form [formGroup]="friendsForm">
+  <table>
+    <tr>
+      <td>Name:</td>
+      <td> <input type="text" size="30" formControlName="name"> </td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td> <input type="email" size="30" formControlName="email"> </td>
+    </tr>
+    <tr>
+      <td>Phone:</td>
+      <td> <input type="tel" size="30" formControlName="phone"> </td>
+    </tr>
+    <tr>
+      <td>Friend:</td>
+      <td> <input type="checkbox" formControlName="friend"> </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <div class="apart">
+          <button type="button" (click)="create()" [disabled]="cannotUpdate()">
+            Create
+          </button>
+          <button type="button" (click)="update()" [disabled]="cannotCreate()">
+            Update
+          </button>
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
