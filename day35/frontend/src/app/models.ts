@@ -4,3 +4,10 @@ export interface Game {
   url: string
   image: string
 }
+
+export interface Comment {
+  user: string
+  gameId: number
+  text: string
+  rating: number
+}

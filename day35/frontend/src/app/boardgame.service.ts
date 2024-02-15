@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
-import { Observable } from "rxjs";
-import { Game } from "./models";
+import { Observable, lastValueFrom } from "rxjs";
+import { Game, Comment } from "./models";
 import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable()
@@ -18,6 +18,17 @@ export class BoardgameService {
         .set("name", name)
 
     return this.http.get<Game[]>('http://localhost:8080/api/games/search', { params })
+  }
+  searchComments(gameId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`http://localhost:8080/api/game/${gameId}/comments`)
+  }
+
+  searchBoardgamePromise(name: string): Promise<Game[]> {
+    return lastValueFrom(this.searchBoardgame(name))
+  }
+
+  searchCommentsPromise(gameId: number): Promise<Comment[]> {
+    return lastValueFrom(this.searchComments(gameId))
   }
 
 }

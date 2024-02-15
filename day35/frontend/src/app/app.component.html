@@ -17,7 +17,20 @@
   </table>
 </form>
 
-<div *ngIf="search$ | async as games; else noSearch">
+<div *ngIf="comments$ | async as data; else noSearch">
+  <div *ngFor="let c of data">
+    <table>
+      <tr>
+        <td>User:</td>
+        <td> {{ c?.user }} </td>
+      </tr>
+      <tr>
+        <td>Text:</td>
+        <td> {{ c?.text }} </td>
+      </tr>
+    </table>
+  </div>
+  <!--
   <div *ngFor="let g of games">
     <a [href]="g.url" target="_blank">
       <h3>{{ g.name }}</h3>
@@ -26,6 +39,7 @@
       <img [src]="g.image" alt="">
     </div>
   </div>
+  -->
 </div>
 
 <ng-template #noSearch>
