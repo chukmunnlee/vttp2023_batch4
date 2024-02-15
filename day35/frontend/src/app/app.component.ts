@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription, map, tap } from 'rxjs';
+import { BoardgameService } from './boardgame.service';
+import { Game } from './models';
 
 @Component({
   selector: 'app-root',
@@ -10,48 +12,32 @@ import { Observable, Subscription, map, tap } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
 
   private fb = inject(FormBuilder)
+  private bgSvc = inject(BoardgameService)
 
   form!: FormGroup
-  valueSub!: Subscription
-  statusSub!: Subscription
-
-  formStatus: boolean = false
-  formStatus$!: Observable<boolean>
+  search$!: Observable<Game[]>
 
   ngOnInit(): void {
     this.form = this.createForm()
-    this.valueSub = this.form.valueChanges.subscribe({
-      next: (values) => {
-        console.info('form values: ', values)
-      }
-    })
-    this.statusSub = this.form.statusChanges
-      .pipe(
-        map(status => "VALID" === status),
-      )
-      .subscribe({
-        next: (status) => {
-          console.info('form status: ', status)
-          this.formStatus = status
-        }
-      })
-
-      this.formStatus$ = this.form.statusChanges
-        .pipe(
-          map(status => 'VALID' === status)
-        )
   }
 
   ngOnDestroy(): void {
-      // Otherwise you will have memory leak
-      this.valueSub.unsubscribe()
-      this.statusSub.unsubscribe()
+  }
+
+  processForm() {
+    const searchValue: string = this.form.value['search']
+    console.info('>>> value: ', searchValue)
+    this.search$ = this.bgSvc.searchBoardgame(searchValue)
+      .pipe(
+        tap(value => {
+          console.info('>>> value: ', value)
+        })
+      )
   }
 
   private createForm(): FormGroup {
     return this.fb.group({
-      name: this.fb.control<string>('', [ Validators.required ]),
-      email: this.fb.control<string>('', [ Validators.required, Validators.email ]),
+      search: this.fb.control<string>('', [ Validators.required ]),
     })
   }
 }

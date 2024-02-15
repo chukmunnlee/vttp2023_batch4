@@ -1,24 +1,33 @@
-<h1><code>hello, world</code></h1>
+<h1>BGG Search</h1>
 
-<h2>Form status: {{ formStatus }}</h2>
-<div *ngIf="formStatus$ | async as v">
-  <h2>Form status as observable: {{ v }}</h2>
-</div>
-
-<form [formGroup]="form">
+<form [formGroup]="form" (submit)="processForm()">
   <table>
     <tr>
-      <td>Name:</td>
+      <td>Boardgame Name:</td>
       <td>
-        <input type="text" size="30" formControlName="name">
+        <input type="text" size="30" formControlName="search">
       </td>
     </tr>
     <tr>
-      <td>Email:</td>
+      <td></td>
       <td>
-        <input type="email" size="30" formControlName="email">
+        <button type="submit" [disabled]="form.invalid"> Search </button>
       </td>
     </tr>
   </table>
-
 </form>
+
+<div *ngIf="search$ | async as games; else noSearch">
+  <div *ngFor="let g of games">
+    <a [href]="g.url" target="_blank">
+      <h3>{{ g.name }}</h3>
+    </a>
+    <div>
+      <img [src]="g.image" alt="">
+    </div>
+  </div>
+</div>
+
+<ng-template #noSearch>
+  <h2>No results yet</h2>
+</ng-template>
