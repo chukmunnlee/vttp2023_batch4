@@ -3,6 +3,8 @@ import {Injectable, inject} from "@angular/core";
 import {Friend} from "./models";
 import {lastValueFrom} from "rxjs";
 
+const URL = 'https://obsolete-channel-production.up.railway.app'
+
 @Injectable()
 export class FriendsService {
 
@@ -10,13 +12,13 @@ export class FriendsService {
 
   addFriend(friend: Friend): Promise<any> {
     return lastValueFrom(
-      this.http.post<any>('http://localhost:8080/friend', friend)
+      this.http.post<any>(`${URL}/friend`, friend)
     )
   }
 
   getFriends(): Promise<Friend[]> {
     return lastValueFrom(
-      this.http.get<Friend[]>('http://localhost:8080/friends')
+      this.http.get<Friend[]>(`${URL}/friends`)
     )
   }
 
