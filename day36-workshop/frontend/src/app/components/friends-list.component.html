@@ -1,0 +1,21 @@
+
+<button type="button" [routerLink]="['/add']">Add</button>
+
+<div *ngIf="friends$ | async as friends; else loading">
+  <div *ngIf="friends.length > 0; else noFriends">
+    <div *ngFor="let f of friends">
+      <a [routerLink]="['/friend', f.email ]">
+        <h2>{{ f.name | titlecase }}</h2>
+      </a>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <h2>Loading</h2>
+</ng-template>
+
+<ng-template #noFriends>
+  <h2>You have no friends. Make some</h2>
+</ng-template>
+
