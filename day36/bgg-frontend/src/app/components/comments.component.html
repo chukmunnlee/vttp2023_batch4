@@ -1,0 +1,28 @@
+<h2>Game Comments</h2>
+
+<div>
+  <button type="button" [routerLink]="['/']">Back</button>
+</div>
+
+<hr>
+
+<div *ngIf="comments$ | async as comments; else noComments">
+  <table *ngFor="let c of comments" border="1">
+    <tr>
+      <td>User:</td>
+      <td> {{ c.user }}</td>
+    </tr>
+    <tr>
+      <td>Rating:</td>
+      <td> {{ c.rating }}</td>
+    </tr>
+    <tr>
+      <td>Text:</td>
+      <td> {{ c.text }}</td>
+    </tr>
+  </table>
+</div>
+
+<ng-template #noComments>
+  <h2>No comments found for this game</h2>
+</ng-template>

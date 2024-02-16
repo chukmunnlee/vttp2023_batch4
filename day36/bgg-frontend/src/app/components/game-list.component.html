@@ -1,0 +1,13 @@
+
+<div *ngIf="gameList$ | async as gameList; else loading">
+  <div *ngFor="let g of gameList">
+    <a [routerLink]="[ '/comments', g.gameId ]">
+      <h3>{{ g.name | titlecase }}</h3>
+    </a>
+    <button type="button" (click)="showComments(g.gameId)"> Go </button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <h2>Loading game list</h2>
+</ng-template>

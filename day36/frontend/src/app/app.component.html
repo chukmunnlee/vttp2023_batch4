@@ -1,0 +1,16 @@
+<h1>SPA Example</h1>
+
+<hr>
+<a [routerLink]="['/dog']"> Dog </a>
+<button type="button" (click)="goHome()">Home</button>
+<select (change)="onNumberSelected($event)">
+  <option value="0">0</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+</select>
+<hr>
+
+<router-outlet></router-outlet>
