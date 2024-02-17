@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+.full {
+  width: 95vw;
+  height: 95vh;
+}
+
+.side-by-side-flex {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.center-content-flex {
+  display: flex;
+  justify-content: center;
+}

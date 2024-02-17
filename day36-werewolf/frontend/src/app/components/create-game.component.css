@@ -1,0 +1,22 @@
+.full {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.center-it {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+code {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+button {
+  font-size: 2em;
+  font-weight: bolder;
+}

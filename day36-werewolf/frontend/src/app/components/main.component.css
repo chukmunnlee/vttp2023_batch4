@@ -1,0 +1,12 @@
+
+button {
+  font-size: 2em;
+  font-weight: bolder;
+}
+
+.center-it {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+}

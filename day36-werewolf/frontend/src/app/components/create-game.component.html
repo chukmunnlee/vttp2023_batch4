@@ -1,0 +1,13 @@
+<div class="full">
+  <div class="center-it">
+    <h1><code>{{ gameId }}</code></h1>
+  </div>
+  <div class="side-by-side-flex">
+    <button type="button" class="btn btn-danger btn-lg col-3" (click)="cancel()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary btn-lg col-3" [routerLink]="['/start']">
+      Create
+    </button>
+  </div>
+</div>

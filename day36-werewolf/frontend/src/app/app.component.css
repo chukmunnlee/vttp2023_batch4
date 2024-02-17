@@ -1,0 +1,16 @@
+.logo {
+  width: 5vw;
+  height: auto;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: .5vw;
+}
+
+.row-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
