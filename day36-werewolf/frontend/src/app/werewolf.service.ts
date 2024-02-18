@@ -46,6 +46,7 @@ export class WerewolfService {
     ).then(resp => {
       this.gameId = ''
       this.username = ''
+      this.secret = 'abcd1234'
       return resp
     })
   }
