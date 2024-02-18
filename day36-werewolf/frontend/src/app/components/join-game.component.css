@@ -1,0 +1,6 @@
+.form {
+  margin-top: 2vh;
+  display: grid;
+  grid-template-rows: 1fr;
+  row-gap: 1.5vh;
+}

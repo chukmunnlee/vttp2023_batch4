@@ -1,1 +1,17 @@
-<p>join-game works!</p>
+<form [formGroup]="form" (submit)="joinGame()">
+  <div class="form">
+    <input type="text" class="form-control form-control-lg" placeholder="Game Id"
+        formControlName="gameId">
+    <input type="text" class="form-control form-control-lg" placeholder="Username"
+        formControlName="username">
+
+    <div class="d-flex justify-content-around align-items-center">
+      <button type="button" class="btn btn-danger btn-lg col-3" [routerLink]="['/']">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary btn-lg col-3" [disabled]="form.invalid">
+        Join
+      </button>
+    </div>
+  </div>
+</form>

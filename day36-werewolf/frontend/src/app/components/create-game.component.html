@@ -2,12 +2,12 @@
   <div class="center-it">
     <h1><code>{{ gameId }}</code></h1>
   </div>
-  <div class="side-by-side-flex">
+  <div class="d-flex justify-content-around align-items-center">
     <button type="button" class="btn btn-danger btn-lg col-3" (click)="cancel()">
       Cancel
     </button>
     <button type="button" class="btn btn-primary btn-lg col-3" [routerLink]="['/start']">
-      Create
+      Start
     </button>
   </div>
 </div>

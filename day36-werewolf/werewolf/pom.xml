@@ -48,6 +48,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.azam.ulidj/ulidj -->
+		<dependency>
+			<groupId>io.azam.ulidj</groupId>
+			<artifactId>ulidj</artifactId>
+			<version>1.0.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
