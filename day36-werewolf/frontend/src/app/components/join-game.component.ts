@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {JoinGameRequest} from '../models';
+import {WerewolfService} from '../werewolf.service';
 
 @Component({
   selector: 'app-join-game',
@@ -11,6 +12,8 @@ import {JoinGameRequest} from '../models';
 export class JoinGameComponent implements OnInit {
 
   private router = inject(Router)
+  private werewolfSvc = inject(WerewolfService)
+
   private fb = inject(FormBuilder)
   private activatedRoute = inject(ActivatedRoute)
 
@@ -28,7 +31,16 @@ export class JoinGameComponent implements OnInit {
 
   joinGame() {
     const req: JoinGameRequest = this.form.value
-    console.info('>>> req: ', req)
+    this.werewolfSvc.joinGame(req)
+      .then(resp => {
+        this.gameId = resp.gameId
+        this.username = req.username
+        console.info('>>>> created: ', resp)
+        //this.router.navigate([ '/wait', this.gameId ])
+      })
+      .catch(err => {
+          alert(`${err.error?.message}`)
+      })
   }
 
   private createForm(): FormGroup {

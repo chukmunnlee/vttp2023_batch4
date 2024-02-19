@@ -3,6 +3,7 @@ package vttp.batch4.csf.werewolf.respositories;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,13 @@ import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.client.result.DeleteResult;
+
+import vttp.batch4.csf.werewolf.models.Game;
+import vttp.batch4.csf.werewolf.models.Player;
 
 import static vttp.batch4.csf.werewolf.respositories.Constants.*;
 
@@ -69,6 +74,32 @@ public class GameRepository {
 		doc.put(F_CREATED_ON, new Date());
 		doc.put(F_PLAYERS, new LinkedList<Document>());
 		doc = template.insert(doc, C_GAMES);
+	}
+
+	/*
+	 * db.games.find({ _id: 'abcd1234' })
+	 */
+	public Optional<Game> getGameByGameId(String gameId) {
+		Criteria criteria = Criteria.where(F_ID).is(gameId);
+		Query query = Query.query(criteria);
+
+		List<Document> result = template.find(query, Document.class, C_GAMES);
+		if (result.size() <= 0)
+			return Optional.empty();
+
+		return Optional.of(Game.toGame(result.getFirst()));
+	}
+
+	public boolean addPlayerToGame(String gameId, Player player) {
+		Criteria criteria = Criteria.where(F_ID).is(gameId);
+		Query query = Query.query(criteria);
+
+		Update updateOps = new Update()
+			.push(F_PLAYERS, player.toDocument());
+
+		var result = template.updateFirst(query, updateOps, Document.class, C_GAMES);
+
+		return result.getModifiedCount() == 1;
 	}
 
 	/*

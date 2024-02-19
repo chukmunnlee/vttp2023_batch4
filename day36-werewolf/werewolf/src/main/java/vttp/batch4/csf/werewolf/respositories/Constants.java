@@ -9,4 +9,13 @@ public class Constants {
 	public static final String F_SECRET = "secret";
 	public static final String F_PLAYERS = "players";
 	public static final String F_COUNT = "count";
+
+	public static final String F_USERNAME = "username";
+	public static final String F_ROLE = "role";
+	public static final String F_DEAD = "dead";
+
+	public static final String F_GAMEID = "gameId";
+	public static final String F_MESSAGE = "message";
+	public static final String F_SUCCECSS = "success";
+
 }

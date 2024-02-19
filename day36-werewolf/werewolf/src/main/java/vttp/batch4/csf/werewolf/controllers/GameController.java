@@ -1,5 +1,6 @@
 package vttp.batch4.csf.werewolf.controllers;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import vttp.batch4.csf.werewolf.models.CreateGameResponse;
 import vttp.batch4.csf.werewolf.models.DeleteGameResponse;
 import vttp.batch4.csf.werewolf.models.JoinGameRequest;
+import vttp.batch4.csf.werewolf.models.JoinGameResponse;
+import vttp.batch4.csf.werewolf.models.Player;
 import vttp.batch4.csf.werewolf.services.GameService;
 
 @Controller
@@ -48,11 +51,9 @@ public class GameController {
 		final String gameId = getGameId(createGameResp);
 		final String secret = getSecret(createGameResp);
 
-		System.out.printf(">>>>> create: %s\n", createGameResp);
-
 		resp = new CreateGameResponse(gameId, secret, "Success");
 		logger.info("Creating new game: gameId=%s".formatted(gameId));
-		return ResponseEntity.ok(resp.toJson().toString());
+		return ResponseEntity.status(201).body(resp.toJson().toString());
 	}
 
 	@PostMapping(path="/game/{gameId}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +61,16 @@ public class GameController {
 	public ResponseEntity<String> postGameGameId(@PathVariable String gameId,
 			@RequestBody String payload) {
 		JoinGameRequest req = JoinGameRequest.toJoinGameRequest(payload);
-		return null;
+		JoinGameResponse resp;
+
+		Optional<String> opt = gameSvc.joinGame(req);
+		if (opt.isPresent()) {
+			resp = new JoinGameResponse(gameId, opt.get());
+			return ResponseEntity.status(400).body(resp.toJson().toString());
+		}
+
+		resp = new JoinGameResponse(gameId, "Joined game %s as %s".formatted(gameId, req.username()));
+		return ResponseEntity.status(201).body(resp.toJson().toString());
 	}
 
 	@DeleteMapping(path="/game/{gameId}")
