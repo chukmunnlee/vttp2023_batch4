@@ -9,6 +9,8 @@ import { NoticeComponent } from './components/notice.component';
 import { RouteService } from './route.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { StorageService } from './storage.service';
+import { UserStorage } from './user.storage.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule, AppRoutingModule, ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ RouteService ],
+  providers: [ RouteService, StorageService, UserStorage ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

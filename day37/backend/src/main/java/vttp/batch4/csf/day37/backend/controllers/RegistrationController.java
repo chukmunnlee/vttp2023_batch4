@@ -4,6 +4,7 @@ import java.io.StringReader;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import jakarta.json.JsonReader;
 
 @Controller
 @RequestMapping(path="/api")
+//@CrossOrigin
 public class RegistrationController {
 
 	@PostMapping(path="/user")

@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { Observable, firstValueFrom } from "rxjs";
+import { firstValueFrom } from "rxjs";
+import { User } from "./models";
 
 @Injectable()
 export class RouteService {
@@ -9,9 +10,9 @@ export class RouteService {
 
   proceed = false
 
-  register(data: any): Promise<any> {
+  register(data: User): Promise<any> {
     return firstValueFrom(
-      this.http.post<any>('http://localhost:8080/api/user', data)
+      this.http.post<any>('/api/user', data)
     )
   }
 }

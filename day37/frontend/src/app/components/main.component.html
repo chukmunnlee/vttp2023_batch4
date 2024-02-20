@@ -11,3 +11,11 @@
 <div>
   <button type="button" [routerLink]="['/form']">Proceed</button>
 </div>
+
+<div>
+  <ol *ngIf="users$ | async as users">
+    <li *ngFor="let u of users">
+      {{ u.name }} - <code>{{ u.email }}</code>
+    </li>
+  </ol>
+</div>

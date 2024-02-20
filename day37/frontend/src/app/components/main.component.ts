@@ -1,5 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouteService } from '../route.service';
+import { UserStorage } from '../user.storage.service';
+import { User } from '../models';
 
 @Component({
   selector: 'app-main',
@@ -9,11 +11,14 @@ import { RouteService } from '../route.service';
 export class MainComponent implements OnInit {
 
   routeSvc = inject(RouteService)
+  userStorage = inject(UserStorage)
 
   agree = false
+  users$!: Promise<User[]>
 
   ngOnInit(): void {
-      this.routeSvc.proceed = this.agree
+    this.routeSvc.proceed = this.agree
+    this.users$ = this.userStorage.getAllUsers()
   }
 
   checked(checkbox: any) {
