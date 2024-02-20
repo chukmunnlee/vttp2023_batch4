@@ -1,0 +1,43 @@
+
+<form [formGroup]="form" (submit)="add()">
+  <table>
+    <tr>
+      <td>Date:</td>
+      <td>
+        <input type="date" formControlName="date">
+      </td>
+    </tr>
+    <tr>
+      <td>Text:</td>
+      <td>
+        <textarea cols="30" rows="5" formControlName="text"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>
+        <span>
+          <input type="radio" name="entryType" value="travel" formControlName="entryType"> Travel
+        </span>
+        <span>
+          <input type="radio" name="entryType" value="hobbies" formControlName="entryType"> Hobbies
+        </span>
+        <span>
+          <input type="radio" name="entryType" value="gym" formControlName="entryType"> Gym
+        </span>
+        <span>
+          <input type="radio" name="entryType" value="movies" formControlName="entryType"> Movies
+        </span>
+        <span>
+          <input type="radio" name="entryType" value="others" formControlName="entryType"> Others
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit">Add</button>
+      </td>
+    </tr>
+  </table>
+</form>
