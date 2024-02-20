@@ -1,0 +1,21 @@
+<h2>Registration Form</h2>
+
+<form [formGroup]="form" (submit)="process()">
+
+  <table>
+    <tr>
+      <td>Name:</td>
+      <td>
+        <input type="text" formControlName="name" size="20">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button type="button" [routerLink]="['/']">Back</button>
+      </td>
+      <td>
+        <button type="submit">Process</button>
+      </td>
+    </tr>
+  </table>
+</form>
