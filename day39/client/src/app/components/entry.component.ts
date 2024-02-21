@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import { Todo } from '../models'
 
@@ -17,7 +17,7 @@ export class EntryComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       date: this.fb.control<string>(''),
-      task: this.fb.control<string>(''),
+      task: this.fb.control<string>('', [ Validators.required ]),
       priority: this.fb.control<number>(3),
     })
   }
