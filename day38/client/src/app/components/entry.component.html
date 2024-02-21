@@ -1,0 +1,22 @@
+<h2>Entry</h2>
+
+<form [formGroup]="form" (submit)="process()">
+  <table>
+    <tr>
+      <td>Date:</td>
+      <td> <input type="date" formControlName="date"> </td>
+    </tr>
+    <tr>
+      <td>Task:</td>
+      <td> <input type="input" formControlName="task"> </td>
+    </tr>
+    <tr>
+      <td>Priority:</td>
+      <td> <input type="number" min="1" max="5" formControlName="priority"> </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td> <button type="submit">Add</button> </td>
+    </tr>
+  </table>
+</form>
