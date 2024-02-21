@@ -3,7 +3,9 @@ import {Injectable, inject} from "@angular/core";
 import {Friend} from "./models";
 import {lastValueFrom} from "rxjs";
 
-const URL = 'https://obsolete-channel-production.up.railway.app'
+import { environment } from '../environments/environment'
+
+const URL = environment.url
 
 @Injectable()
 export class FriendsService {
