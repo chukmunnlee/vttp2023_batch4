@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+	</head>
+	<body>
+
+		<h2>Post An Article</h2>
+
+		<form method="POST" action="/article" enctype="multipart/form-data">
+			<table>
+				<tr>
+					<td>Title</td>
+					<td> <input type="text" name="title" size="30"> </td>
+				</tr>
+				<tr>
+					<td>Text</td>
+					<td> <textarea name="text" cols="30" rows="3"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>Image</td>
+					<td> <input type="file" name="image"> </td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button type="submit">Post Article</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+	</body>
+</html>
