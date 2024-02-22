@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Smile and Snap</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <webcam [width]="width" [height]="height"
+          [trigger]="trigger$" (imageCapture)="captured($event)">
+      </webcam>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col d-flex">
+      <button type="button" class="btn btn-primary btn-lg col-2" (click)="clear()">
+        Clear
+      </button>
+      <button type="button" class="btn btn-warning btn-lg col-2" (click)="snap()">
+        Snap
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col" (click)="upload()">
+      <img [src]="capturedImage" class="img-thumbnail rounded">
+    </div>
+  </div>
+</div>
