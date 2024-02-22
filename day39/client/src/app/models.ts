@@ -3,3 +3,9 @@ export interface Todo {
   task: string
   priority: number
 }
+
+// DB/Store
+export interface TodoSlice {
+  loadedOn: number
+  todos: Todo[]
+}

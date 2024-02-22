@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { ListingsComponent } from './components/listings.component';
 import { EntryComponent } from './components/entry.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import { TodoStore } from './todo.store';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     BrowserModule, ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ TodoStore ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

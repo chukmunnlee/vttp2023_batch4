@@ -2,6 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import { Todo } from '../models'
+import { TodoStore } from '../todo.store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-entry',
@@ -11,8 +13,11 @@ import { Todo } from '../models'
 export class EntryComponent implements OnInit {
 
   private fb = inject(FormBuilder)
+  private todoStore = inject(TodoStore)
 
   protected form!: FormGroup
+
+  protected taskNum$!: Observable<number>
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -20,6 +25,7 @@ export class EntryComponent implements OnInit {
       task: this.fb.control<string>('', [ Validators.required ]),
       priority: this.fb.control<number>(3),
     })
+    this.taskNum$ = this.todoStore.getNumberOfTodos
   }
 
   process() {
@@ -27,9 +33,8 @@ export class EntryComponent implements OnInit {
     const task = this.form.value as Todo
 
     console.info('>> todo: ', task)
+    this.todoStore.addTodo(task)
 
     this.form.reset()
-
   }
-
 }
