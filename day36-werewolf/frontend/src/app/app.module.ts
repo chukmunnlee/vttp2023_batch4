@@ -10,11 +10,14 @@ import { CreateGameComponent } from './components/create-game.component';
 import { JoinGameComponent } from './components/join-game.component';
 
 import {WerewolfService} from './werewolf.service';
+import {WerewolfStore} from './werewolf.store';
+import { PreStartComponent } from './components/pre-start.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
   { path: 'create', component: CreateGameComponent },
   { path: 'join', component: JoinGameComponent },
+  { path: 'prestart', component: PreStartComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ]
 
@@ -23,13 +26,14 @@ const appRoutes: Routes = [
     AppComponent,
     MainComponent,
     CreateGameComponent,
-    JoinGameComponent
+    JoinGameComponent,
+    PreStartComponent
   ],
   imports: [
     BrowserModule, ReactiveFormsModule, HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ WerewolfService ],
+  providers: [ WerewolfService, WerewolfStore ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

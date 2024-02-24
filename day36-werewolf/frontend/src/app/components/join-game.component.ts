@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {JoinGameRequest} from '../models';
 import {WerewolfService} from '../werewolf.service';
+import {WerewolfStore} from '../werewolf.store';
 
 @Component({
   selector: 'app-join-game',
@@ -13,12 +14,12 @@ export class JoinGameComponent implements OnInit {
 
   private router = inject(Router)
   private werewolfSvc = inject(WerewolfService)
+  private store = inject(WerewolfStore)
 
   private fb = inject(FormBuilder)
   private activatedRoute = inject(ActivatedRoute)
 
   gameId = ''
-  username = ''
 
   form!: FormGroup
 
@@ -33,10 +34,8 @@ export class JoinGameComponent implements OnInit {
     const req: JoinGameRequest = this.form.value
     this.werewolfSvc.joinGame(req)
       .then(resp => {
-        this.gameId = resp.gameId
-        this.username = req.username
         console.info('>>>> created: ', resp)
-        //this.router.navigate([ '/wait', this.gameId ])
+        this.router.navigate([ '/prestart' ])
       })
       .catch(err => {
           alert(`${err.error?.message}`)
@@ -46,7 +45,7 @@ export class JoinGameComponent implements OnInit {
   private createForm(): FormGroup {
     return this.fb.group({
       gameId: this.fb.control<string>(this.gameId, [ Validators.required, Validators.minLength(8) ]),
-      username: this.fb.control<string>(this.username, [ Validators.required ])
+      username: this.fb.control<string>('', [ Validators.required ])
     })
   }
 

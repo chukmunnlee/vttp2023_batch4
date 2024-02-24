@@ -2,18 +2,30 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable, inject} from "@angular/core";
 import {firstValueFrom} from "rxjs";
 
-import {CreateGameResponse,  DeleteGameResponse, JoinGameRequest, JoinGameResponse} from "./models";
+import {
+  CreateGameResponse,  DeleteGameResponse, JoinGameRequest, JoinGameResponse,
+  Game, GameStatus, GameRole, PlayerCountResponse, StartGameRequest, StartGameResponse
+} from "./models";
+import {WerewolfStore} from "./werewolf.store";
 
 @Injectable()
 export class WerewolfService {
 
   private http = inject(HttpClient)
+  private store = inject(WerewolfStore)
+
   gameId = ''
   username = ''
   secret = 'abcd1234'
 
   hasJoined(): boolean {
     return !!this.gameId
+  }
+
+  getNumberOfPlayers(): Promise<number> {
+    return firstValueFrom(
+      this.http.get<PlayerCountResponse>(`/api/game/${this.gameId}/players/count`)
+    ).then(resp => resp.count)
   }
 
   createGame(): Promise<CreateGameResponse> {
@@ -24,6 +36,14 @@ export class WerewolfService {
       this.secret = resp.secret
       this.username = 'moderator'
       console.info(`>>> gameId: ${this.gameId}, secret: ${this.secret}`)
+      this.store.newGame({
+        gameId: this.gameId,
+        secret: this.secret,
+        moderator: true,
+        name: this.username,
+        role: GameRole.Moderator,
+        status: GameStatus.PreStart
+      } as Game)
       return resp
     })
   }
@@ -34,8 +54,35 @@ export class WerewolfService {
     ).then(resp => {
       this.gameId = req.gameId
       this.username = req.username
+      this.store.newGame({
+        gameId: this.gameId,
+        secret: "",
+        moderator: false,
+        name: this.username,
+        role: GameRole.None,
+        status: GameStatus.PreStart
+      } as Game)
       return resp
     })
+  }
+
+  startGameAsModerator(gameId: string): Promise<StartGameResponse> {
+    const headers = new HttpHeaders()
+        .set('X-SECRET', this.secret)
+      const req: StartGameRequest = {
+        gameId: gameId,
+        name: 'moderator',
+        moderator: true
+      }
+    return firstValueFrom(
+      this.http.post<StartGameResponse>(`/api/game/${req.gameId}/moderator`, req, { headers })
+    )
+  }
+
+  startGameAsPlayer(req: StartGameRequest): Promise<StartGameResponse> {
+    return firstValueFrom(
+      this.http.post<StartGameResponse>(`/api/game/${req.gameId}/${req.name}`, req)
+    )
   }
 
   deleteGame(gameId: string): Promise<DeleteGameResponse> {
@@ -47,6 +94,7 @@ export class WerewolfService {
       this.gameId = ''
       this.username = ''
       this.secret = 'abcd1234'
+      this.store.deleteGame()
       return resp
     })
   }

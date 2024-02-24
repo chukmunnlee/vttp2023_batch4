@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.MongoExpression;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationExpression;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -72,6 +71,7 @@ public class GameRepository {
 		doc.put(F_ID, gameId);
 		doc.put(F_SECRET, secret);
 		doc.put(F_CREATED_ON, new Date());
+		doc.put(F_STARTED, false);
 		doc.put(F_PLAYERS, new LinkedList<Document>());
 		doc = template.insert(doc, C_GAMES);
 	}
@@ -96,6 +96,18 @@ public class GameRepository {
 
 		Update updateOps = new Update()
 			.push(F_PLAYERS, player.toDocument());
+
+		var result = template.updateFirst(query, updateOps, Document.class, C_GAMES);
+
+		return result.getModifiedCount() == 1;
+	}
+
+	public boolean startGame(String gameId, boolean started) {
+		Criteria criteria = Criteria.where(F_ID).is(gameId);
+		Query query = Query.query(criteria);
+
+		Update updateOps = new Update()
+			.set(F_STARTED, started);
 
 		var result = template.updateFirst(query, updateOps, Document.class, C_GAMES);
 

@@ -14,6 +14,7 @@ public class Game {
 	private String gameId;
 	private String secret;
 	private Date createdOn;
+	private boolean started = false;
 	private List<Player> players = new LinkedList<>();
 
 	public void setGameId(String gameId) { this.gameId = gameId; }
@@ -25,6 +26,10 @@ public class Game {
 	public void setCreatedOn(Date createdOn) { this.createdOn = createdOn; }
 	public Date getCreatedOn() { return this.createdOn; }
 
+	public void setStarted(boolean started) { this.started = started; }
+	public boolean getStarted() { return this.started; }
+	public boolean isStarted() { return this.started; }
+
 	public void setPlayers(List<Player> players) { this.players = players; }
 	public List<Player> getPlayers() { return this.players; }
 	public void addPlayer(Player player) { this.players.add(player); }
@@ -34,6 +39,7 @@ public class Game {
 		game.setGameId(doc.getString(F_ID));
 		game.setSecret(doc.getString(F_SECRET));
 		game.setCreatedOn(doc.getDate(F_CREATED_ON));
+		game.setStarted(doc.getBoolean(F_STARTED));
 		doc.getList(F_PLAYERS, Document.class).stream()
 			.map(Player::toPlayer)
 			.forEach(game::addPlayer);
@@ -42,7 +48,7 @@ public class Game {
 
 	@Override
 	public String toString() {
-		return "Game{gameId=%s, secret=%s, createOn=%s, players=%s}"
-			.formatted(gameId, secret, createdOn.toString(), players);
+		return "Game{gameId=%s, secret=%s, createOn=%s, started=%b, players=%s}"
+			.formatted(gameId, secret, createdOn.toString(), started, players);
 	}
 }
