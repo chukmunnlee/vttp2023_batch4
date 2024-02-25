@@ -1,7 +1,12 @@
 package vttp.batch4.csf.werewolf.services;
 
+import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,12 @@ import static vttp.batch4.csf.werewolf.respositories.Constants.*;
 @Service
 public class GameService {
 
+	public static final String[] NAMES = { 
+		"barney", "wilma", "betty", "bambam", "pebbles", "dino",
+		"bender", "leela", "fry", "amy", "zoidberg", "zapp", "kif", "hermes", "professor",
+		"holmer", "bart", "lisa", "marge", "maggie", "krusty", "milhouse", "apu"
+	};
+
 	// Not configurable
 	public static final int MAX_PLAYERS = 15;
 
@@ -34,15 +45,37 @@ public class GameService {
 	@Autowired
 	private GameRepository gameRepo;
 
+	private List<String> names = new LinkedList<>();
+
 	@PostConstruct
 	public void init() {
 		maxDuration = Math.round(gameInstanceDurationHours * (1000 * 60 * 60));
+		for (String n: NAMES)
+			names.add(n);
+
+		// Shuffle twice
+		final Random rand = new SecureRandom();
+		Collections.shuffle(names, rand);
+		Collections.shuffle(names, rand);
 	}
 
 	public boolean exceededGameInstanceLimit() {
 		final long fromTime = (new Date()).getTime() - maxDuration;
 		gameRepo.deleteGamesBeforeTimestamp(fromTime);
 		return gameRepo.getGamesAfterTimestamp(fromTime) >= gameInstanceMax;
+	}
+
+	public List<String> injectPlayers(String gameId, int count) {
+		count = count > NAMES.length? MAX_PLAYERS: count;
+		return names.stream().limit(count)
+			.map(name -> {
+				Player player = new Player();
+				player.setUsername(name);
+				return player;
+			})
+			.filter(player -> gameRepo.addPlayerToGame(gameId, player))
+			.map(player -> player.getUsername())
+			.toList();
 	}
 
 	public int getPlayerCountByGameId(String gameId) {
@@ -117,5 +150,9 @@ public class GameService {
 
 	public boolean deleteGame(String gameId, String secret) {
 		return gameRepo.deleteGameByGameId(gameId, secret);
+	}
+
+	public boolean leaveGame(String gameId, String username) {
+		return gameRepo.deletePlayerFromGame(gameId, username);
 	}
 }

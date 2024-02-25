@@ -1,12 +1,24 @@
 <div class="full">
   <div class="center-it">
-    <h1><code>{{ gameId }}</code></h1>
+    <h1>
+      <code>{{ gameId }}</code>
+      @if (canShare) {
+        <i class="fa-solid fa-share-nodes share" (click)="shareGameId()"></i>
+      }
+    </h1>
+    <h3>
+      Players: <span> {{ playerCount$ | async }} </span>
+      <span class="reload" (click)="getPlayersCount()">
+        <i class="fa-solid fa-rotate fa-2x1"></i>
+      </span>
+    </h3>
   </div>
   <div class="d-flex justify-content-around align-items-center">
     <button type="button" class="btn btn-danger btn-lg col-3" (click)="cancel()">
       Cancel
     </button>
-    <button type="button" class="btn btn-primary btn-lg col-3" (click)="startGame()">
+    <button type="button" class="btn btn-primary btn-lg col-3" (click)="startGame()"
+        [disabled]="invalid">
       Start
     </button>
   </div>

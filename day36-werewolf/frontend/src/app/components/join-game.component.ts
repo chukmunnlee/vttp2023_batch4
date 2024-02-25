@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {JoinGameRequest} from '../models';
+import {JoinGameRequest} from '../messages';
 import {WerewolfService} from '../werewolf.service';
 import {WerewolfStore} from '../werewolf.store';
 

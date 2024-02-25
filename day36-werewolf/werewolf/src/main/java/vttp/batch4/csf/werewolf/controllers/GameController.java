@@ -21,6 +21,7 @@ import vttp.batch4.csf.werewolf.models.DeleteGameResponse;
 import vttp.batch4.csf.werewolf.models.GameDetailResponse;
 import vttp.batch4.csf.werewolf.models.JoinGameRequest;
 import vttp.batch4.csf.werewolf.models.JoinGameResponse;
+import vttp.batch4.csf.werewolf.models.LeaveGameResponse;
 import vttp.batch4.csf.werewolf.models.StartGameRequest;
 import vttp.batch4.csf.werewolf.models.StartGameResponse;
 import vttp.batch4.csf.werewolf.services.GameService;
@@ -126,6 +127,15 @@ public class GameController {
 		logger.info("Deleting  game: gameId=%s, result=%b".formatted(gameId, result));
 		return ResponseEntity.ok(resp.toJson().toString());
 	}
+	
+	// Delete a game
+	@DeleteMapping(path="/game/{gameId}/{name}")
+	@ResponseBody
+	public ResponseEntity<String> deletePlayer(@PathVariable String gameId, @PathVariable String name) {
+		boolean result = gameSvc.leaveGame(gameId, name);
+		LeaveGameResponse resp = new LeaveGameResponse(gameId, "Leave game result: %b".formatted(result));
+		return ResponseEntity.ok(resp.toJson().toString());
+	}
 
 	// Get player count
 	@GetMapping(path="/game/{gameId}/players/count")
@@ -135,7 +145,7 @@ public class GameController {
 		GameDetailResponse resp = new GameDetailResponse();
 		resp.setGameId(gameId);
 		resp.setPlayerCount(count);
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok(resp.toPlayerCountResponse().toString());
 	}
 
 	private String getGameId(String createGame) {

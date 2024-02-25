@@ -5,7 +5,7 @@ import {Title} from '@angular/platform-browser';
 import {Observable, tap} from 'rxjs';
 
 import {WerewolfStore} from '../werewolf.store';
-import {Game, StartGameRequest} from '../models';
+import {Game} from '../models';
 import {WerewolfService} from '../werewolf.service';
 
 @Component({
@@ -34,12 +34,7 @@ export class PreStartComponent implements OnInit {
   }
 
   startGame() {
-    const { gameId, name } = this.game
-    const req: StartGameRequest = {
-      gameId, name,
-      moderator: false
-    }
-    this.werewolfSvc.startGameAsPlayer(req)
+    this.werewolfSvc.startGameAsPlayer()
       .then(req => {
         console.info('>>> start as player: ', req)
       })
@@ -49,6 +44,8 @@ export class PreStartComponent implements OnInit {
   }
 
   leaveGame() {
+    this.werewolfSvc.leaveGame()
+        .finally(() => this.router.navigate(['/']))
   }
 
 }

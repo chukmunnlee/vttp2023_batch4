@@ -53,7 +53,7 @@ public class GameRepository {
 	}
 
 	/*
-	 * db.games.deleteOne({ _id: gameId })
+	 * db.games.deleteOne({ _id: gameId, secret: 'abcd1234' })
 	 */
 	public boolean deleteGameByGameId(String gameId, String secret) {
 		Criteria criteria = Criteria.where(F_ID).is(gameId)
@@ -90,6 +90,12 @@ public class GameRepository {
 		return Optional.of(Game.toGame(result.getFirst()));
 	}
 
+	/*
+	 * db.games.updateOne(
+	 * 	{ _id: 'abcd1234' },
+	 * 	{ $push: { players: { <player doc> } } }
+	 * )
+	 */
 	public boolean addPlayerToGame(String gameId, Player player) {
 		Criteria criteria = Criteria.where(F_ID).is(gameId);
 		Query query = Query.query(criteria);
@@ -102,6 +108,12 @@ public class GameRepository {
 		return result.getModifiedCount() == 1;
 	}
 
+	/*
+	 * db.games.updateOne(
+	 * 	{ _id: 'abcd1234' },
+	 * 	{ $set: { started: true } }
+	 * )
+	 */
 	public boolean startGame(String gameId, boolean started) {
 		Criteria criteria = Criteria.where(F_ID).is(gameId);
 		Query query = Query.query(criteria);
@@ -112,6 +124,24 @@ public class GameRepository {
 		var result = template.updateFirst(query, updateOps, Document.class, C_GAMES);
 
 		return result.getModifiedCount() == 1;
+	}
+
+	/*
+	 * db.games.updateOne(
+	 * 	{ _id: 'abcd1234' },
+	 * 	{ $pull: { players: { username: 'fred' } } }
+	 * )
+	 */
+	public boolean deletePlayerFromGame(String gameId, String username) {
+		Criteria criteria = Criteria.where(F_ID).is(gameId);
+		Query query = Query.query(criteria);
+
+		Document user = new Document(F_USERNAME, username);
+
+		Update updateOps = new Update()
+			.pull(F_PLAYERS, user);
+
+		return template.updateFirst(query, updateOps, Document.class, C_GAMES).getModifiedCount() == 1;
 	}
 
 	/*

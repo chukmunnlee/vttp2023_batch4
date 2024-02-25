@@ -31,7 +31,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule, ReactiveFormsModule, HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [ WerewolfService, WerewolfStore ],
   bootstrap: [AppComponent]

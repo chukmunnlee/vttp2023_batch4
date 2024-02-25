@@ -2,6 +2,7 @@
 .full {
   width: 95vw;
   height: 95vh;
+  margin-bottom: 5vh;
 }
 
 .side-by-side-flex {

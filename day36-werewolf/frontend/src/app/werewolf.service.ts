@@ -4,8 +4,10 @@ import {firstValueFrom} from "rxjs";
 
 import {
   CreateGameResponse,  DeleteGameResponse, JoinGameRequest, JoinGameResponse,
-  Game, GameStatus, GameRole, PlayerCountResponse, StartGameRequest, StartGameResponse
-} from "./models";
+  PlayerCountResponse, StartGameRequest, StartGameResponse
+} from "./messages";
+
+import { Game, GameStatus, GameRole } from "./models"
 import {WerewolfStore} from "./werewolf.store";
 
 @Injectable()
@@ -66,11 +68,11 @@ export class WerewolfService {
     })
   }
 
-  startGameAsModerator(gameId: string): Promise<StartGameResponse> {
+  startGameAsModerator(): Promise<StartGameResponse> {
     const headers = new HttpHeaders()
         .set('X-SECRET', this.secret)
       const req: StartGameRequest = {
-        gameId: gameId,
+        gameId: this.gameId,
         name: 'moderator',
         moderator: true
       }
@@ -79,9 +81,20 @@ export class WerewolfService {
     )
   }
 
-  startGameAsPlayer(req: StartGameRequest): Promise<StartGameResponse> {
+  startGameAsPlayer(): Promise<StartGameResponse> {
+    const req: StartGameRequest = {
+      gameId: this.gameId,
+      name: this.username,
+      moderator: false
+    }
     return firstValueFrom(
       this.http.post<StartGameResponse>(`/api/game/${req.gameId}/${req.name}`, req)
+    )
+  }
+
+  leaveGame(): Promise<any> {
+    return firstValueFrom(
+      this.http.delete<any>(`/api/game/${this.gameId}/${this.username}`)
     )
   }
 
