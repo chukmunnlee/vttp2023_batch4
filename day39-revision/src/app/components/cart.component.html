@@ -1,0 +1,23 @@
+<h3>Name: {{ name | titlecase }}</h3>
+<form [formGroup]="form" (submit)="process()">
+  <table>
+    <tr>
+      <td>Item:</td>
+      <td>
+        <input type="text" size="30" formControlName="item">
+      </td>
+    </tr>
+    <tr>
+      <td>Quantity:</td>
+      <td>
+        <input type="number" min="1" formControlName="quantity">
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <button type="submit">Add</button>
+      </td>
+    </tr>
+  </table>
+</form>
