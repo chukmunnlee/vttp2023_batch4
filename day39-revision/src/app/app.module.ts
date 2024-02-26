@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { CartComponent } from './components/cart.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { OrderComponent } from './components/order.component';
+import { ItemStore } from './item.store';
+import { ItemService } from './item.service';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,7 @@ import { OrderComponent } from './components/order.component';
   imports: [
     BrowserModule, ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ ItemStore, ItemService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 <h3>Name: {{ name | titlecase }}</h3>
-<form [formGroup]="form" (submit)="process()">
+<form [formGroup]="form" (click)="process()">
   <table>
     <tr>
       <td>Item:</td>
@@ -15,8 +15,9 @@
     </tr>
     <tr>
       <td></td>
-      <td>
+        <ng-content></ng-content>
         <button type="submit">Add</button>
+      <td>
       </td>
     </tr>
   </table>

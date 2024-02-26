@@ -1,5 +1,38 @@
 <h1>Application</h1>
 
-<app-order> </app-order>
-
 <app-cart></app-cart>
+
+<!--
+<app-cart [name]="names[0]" (onUpdate)="newItem($event)"></app-cart>
+<app-cart [item]="myItem" #cart>
+  <button type="button" (click)="add()">Add</button>
+  <button type="button" (click)="delete()">Delete</button>
+  <button type="button" (click)="addOne()">+1</button>
+</app-cart>
+
+<div>
+  <button type="button" (click)="save()">Save to Dexie</button>
+</div>
+
+<div *ngIf="items$ | async as items">
+  <ul>
+    <li *ngFor="let i of items">
+      {{ i.item }} x {{ i.quantity }}
+    </li>
+  </ul>
+  Total items: {{ items.length }}
+</div>
+
+<div>
+  <input type="number" min="1" (change)="pressed($event)">
+</div>
+<div *ngIf="filteredItems$ | async as items">
+  <h2>Filtered Items</h2>
+  <ul>
+    <li *ngFor="let i of items">
+      {{ i.item }} x {{ i.quantity }}
+    </li>
+  </ul>
+  Total items: {{ items.length }}
+</div>
+-->
