@@ -46,6 +46,7 @@ export class CreateGameComponent implements OnInit {
     this.werewolfSvc.startGameAsModerator()
       .then(req => {
         console.info('>>> start as moderator: ', req)
+        this.router.navigate([ '/moderator' ])
       })
       .catch(err => {
         alert(`${err.error?.message}`)

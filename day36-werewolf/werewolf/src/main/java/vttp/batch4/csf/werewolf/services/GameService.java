@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
+import vttp.batch4.csf.werewolf.messages.JoinGameRequest;
+import vttp.batch4.csf.werewolf.messages.StartGameRequest;
 import vttp.batch4.csf.werewolf.models.Game;
-import vttp.batch4.csf.werewolf.models.JoinGameRequest;
 import vttp.batch4.csf.werewolf.models.Player;
-import vttp.batch4.csf.werewolf.models.StartGameRequest;
 import vttp.batch4.csf.werewolf.respositories.GameRepository;
 
 import static vttp.batch4.csf.werewolf.respositories.Constants.*;
@@ -94,30 +94,32 @@ public class GameService {
 		return "%s,%s".formatted(gameId, secret);
 	}
 
-	public Optional<String> joinGame(JoinGameRequest req) {
+	public String joinGame(JoinGameRequest req) {
 		Optional<Game> gameOpt = gameRepo.getGameByGameId(req.gameId());
 		if (gameOpt.isEmpty())
-			return Optional.of("Cannot find game %s".formatted(req.gameId()));
+			return "Cannot find game %s".formatted(req.gameId());
 
 		Game game = gameOpt.get();
 		if (game.isStarted()) 
-			return Optional.of("Cannot join. The game has started");
+			return "Cannot join. The game has started";
 
 		if (game.getPlayers().size() >= MAX_PLAYERS)
-			return Optional.of("There are 15 players in this game. You cannot join the game");
+			return "There are 15 players in this game. You cannot join the game";
 
 		Optional<Player> playerOpt= game.getPlayers().stream()
 			.filter(player -> req.username().trim().toLowerCase().equals(player.getUsername()))
 			.findFirst();
 		if (playerOpt.isPresent())
-			return Optional.of("The name %s has been taken".formatted(req.username()));
+			return "The name %s has been taken".formatted(req.username());
 
+		final String secret = UUID.randomUUID().toString().substring(0, 8);
 		Player player = new Player();
 		// Normalize it before saving
 		player.setUsername(req.username().trim().toLowerCase());
+		player.setSecret(secret);
 		gameRepo.addPlayerToGame(req.gameId(), player);
 
-		return Optional.empty();
+		return "%s%s".formatted(PREFIX_SECRET, secret);
 	}
 
 	public Optional<String> startGame(StartGameRequest req) {
@@ -130,12 +132,17 @@ public class GameService {
 			if (game.isStarted()) 
 				return Optional.of("The game has started. Cannot restart game");
 
-			//if (game.getPlayers().size() < 7) 
-			//	return Optional.of("Less than 7 players. Cannot restart game");
+			int playerCount = game.getPlayers().size();
+			if (playerCount < 7) 
+				return Optional.of("Less than 7 players. Cannot restart game");
+
+			// Assign roles to players
+			List<Roles> roles = randomizeRoles(playerCount);
+			boolean result = gameRepo.assignRoles(req.gameId(), req.secret(), roles);
+			System.out.printf(">>> after assignRoles: %b\n", result);
 			
 			// start game
-			// TODO: Assign roles to players
-			gameRepo.startGame(game.getGameId(), true);
+			gameRepo.startGame(game.getGameId(), req.secret(), true);
 			return Optional.empty();
 		}
 
@@ -154,5 +161,18 @@ public class GameService {
 
 	public boolean leaveGame(String gameId, String username) {
 		return gameRepo.deletePlayerFromGame(gameId, username);
+	}
+
+	private List<Roles> randomizeRoles(int playerCount) {
+		List<Roles> roles = new LinkedList<>();
+		roles.add(Roles.Doctor);
+		roles.add(Roles.Seer);
+		roles.add(Roles.Werewolf);
+		roles.add(Roles.Werewolf);
+		for (int i = 0; i < (playerCount - 4); i++)
+			roles.add(Roles.Villager);
+		Collections.shuffle(roles);
+		Collections.shuffle(roles);
+		return roles;
 	}
 }

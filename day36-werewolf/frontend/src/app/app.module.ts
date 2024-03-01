@@ -12,12 +12,14 @@ import { JoinGameComponent } from './components/join-game.component';
 import {WerewolfService} from './werewolf.service';
 import {WerewolfStore} from './werewolf.store';
 import { PreStartComponent } from './components/pre-start.component';
+import { ModeratorComponent } from './components/moderator.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
   { path: 'create', component: CreateGameComponent },
   { path: 'join', component: JoinGameComponent },
   { path: 'prestart', component: PreStartComponent },
+  { path: 'moderator', component: ModeratorComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ]
 
@@ -27,7 +29,8 @@ const appRoutes: Routes = [
     MainComponent,
     CreateGameComponent,
     JoinGameComponent,
-    PreStartComponent
+    PreStartComponent,
+    ModeratorComponent
   ],
   imports: [
     BrowserModule, ReactiveFormsModule, HttpClientModule,

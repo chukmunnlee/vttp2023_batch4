@@ -20,6 +20,9 @@ public class Constants {
 	public static final String F_MESSAGE = "message";
 	public static final String F_SUCCECSS = "success";
 
-	public static final String PREFIX_ROLE = "%s::".formatted(F_ROLE.toUpperCase());
+	public static final String PREFIX_ROLE = "%s::".formatted(F_ROLE);
+	public static final String PREFIX_SECRET = "%s::".formatted(F_SECRET);
+
+	public enum Roles { Werewolf, Villager, Seer, Doctor };
 
 }

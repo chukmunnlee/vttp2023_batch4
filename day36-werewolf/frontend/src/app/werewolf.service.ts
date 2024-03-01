@@ -56,9 +56,11 @@ export class WerewolfService {
     ).then(resp => {
       this.gameId = req.gameId
       this.username = req.username
+      this.secret = resp.secret
+      console.info('join secret: ', this.secret)
       this.store.newGame({
         gameId: this.gameId,
-        secret: "",
+        secret: this.secret,
         moderator: false,
         name: this.username,
         role: GameRole.None,

@@ -13,6 +13,7 @@ export interface JoinGameRequest {
 
 export interface JoinGameResponse {
   gameId: string
+  secret: string
   message: string
 }
 

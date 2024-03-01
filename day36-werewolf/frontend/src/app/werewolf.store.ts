@@ -31,5 +31,8 @@ export class WerewolfStore extends ComponentStore<Game> {
     (_game: Game) => INIT_VALUE
   )
 
+  readonly startGame = this.updater<void>(
+    (_game: Game) => ({ ..._game, status: GameStatus.Started } as Game)
+  )
 
 }

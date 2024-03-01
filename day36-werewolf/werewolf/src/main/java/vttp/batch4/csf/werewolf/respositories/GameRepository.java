@@ -8,7 +8,9 @@ import java.util.Optional;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoExpression;
+import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.BulkOperations.BulkMode;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationExpression;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
@@ -18,6 +20,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.result.DeleteResult;
 
 import vttp.batch4.csf.werewolf.models.Game;
@@ -114,8 +117,9 @@ public class GameRepository {
 	 * 	{ $set: { started: true } }
 	 * )
 	 */
-	public boolean startGame(String gameId, boolean started) {
-		Criteria criteria = Criteria.where(F_ID).is(gameId);
+	public boolean startGame(String gameId, String secret, boolean started) {
+		Criteria criteria = Criteria.where(F_ID).is(gameId)
+				.and(F_SECRET).is(secret);
 		Query query = Query.query(criteria);
 
 		Update updateOps = new Update()
@@ -170,5 +174,30 @@ public class GameRepository {
 
 		Document doc = results.getFirst();
 		return doc.getInteger(F_COUNT, 0);
+	}
+
+	/*
+	 * db.games.find(
+	 * 	{ _id: 'abcd1234' },
+	 * 	{ $set: { 'players.0.role': 'Villager' },
+	 * )
+	 */
+	public boolean assignRoles(String gameId, String secret, List<Roles> roles) {
+		Criteria criteria = Criteria.where(F_ID).is(gameId)
+				.and(F_SECRET).is(secret);
+
+		System.out.printf(">>> roles: %s\n", roles);
+
+		Query query = Query.query(criteria);
+
+		BulkOperations bulkUpdate = template.bulkOps(BulkMode.UNORDERED, C_GAMES);
+		for (int i = 0; i < roles.size(); i++) {
+			Update updateOps = (new Update())
+					.set("players.%d.role".formatted(i), roles.get(i).name());
+			bulkUpdate.updateOne(query, updateOps);
+		}
+
+		BulkWriteResult results = bulkUpdate.execute();
+		return roles.size() == results.getModifiedCount();
 	}
 }

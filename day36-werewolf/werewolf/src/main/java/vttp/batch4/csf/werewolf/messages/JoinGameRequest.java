@@ -1,4 +1,4 @@
-package vttp.batch4.csf.werewolf.models;
+package vttp.batch4.csf.werewolf.messages;
 
 import java.io.StringReader;
 

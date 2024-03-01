@@ -8,6 +8,7 @@ public class Player {
 
 	private String username;
 	private String role = "not set";
+	private String secret;
 	private boolean dead = false;
 
 	public void setUsername(String username) { this.username = username; }
@@ -15,6 +16,9 @@ public class Player {
 
 	public void setRole(String role) { this.role = role; }
 	public String getRole() { return this.role; }
+
+	public void setSecret(String secret) { this.secret = secret; }
+	public String getSecret() { return this.secret; }
 
 	public void setDead(boolean dead) { this.dead = dead; }
 	public boolean getDead() { return this.dead; }
@@ -24,6 +28,7 @@ public class Player {
 		Player player = new Player();
 		player.setUsername(doc.getString(F_USERNAME));
 		player.setRole(doc.getString(F_ROLE));
+		player.setSecret(doc.getString(F_SECRET));
 		player.setDead(doc.getBoolean(F_DEAD, false));
 		return player;
 	}
@@ -32,6 +37,7 @@ public class Player {
 		Document doc = new Document();
 		doc.put(F_USERNAME, username);
 		doc.put(F_ROLE, role);
+		doc.put(F_SECRET, secret);
 		doc.put(F_DEAD, dead);
 		return doc;
 	}
