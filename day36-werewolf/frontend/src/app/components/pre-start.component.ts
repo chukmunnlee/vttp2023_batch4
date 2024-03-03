@@ -35,8 +35,8 @@ export class PreStartComponent implements OnInit {
 
   startGame() {
     this.werewolfSvc.startGameAsPlayer()
-      .then(req => {
-        console.info('>>> start as player: ', req)
+      .then(resp => {
+        console.info('>>> start as player: ', resp)
       })
       .catch(err => {
         alert(`${err.error?.message}`)

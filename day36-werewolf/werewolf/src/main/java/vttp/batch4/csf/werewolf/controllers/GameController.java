@@ -1,5 +1,6 @@
 package vttp.batch4.csf.werewolf.controllers;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import vttp.batch4.csf.werewolf.messages.GameDetailResponse;
 import vttp.batch4.csf.werewolf.messages.JoinGameRequest;
 import vttp.batch4.csf.werewolf.messages.JoinGameResponse;
 import vttp.batch4.csf.werewolf.messages.LeaveGameResponse;
 import vttp.batch4.csf.werewolf.messages.StartGameRequest;
 import vttp.batch4.csf.werewolf.messages.StartGameResponse;
+import vttp.batch4.csf.werewolf.models.Player;
 import vttp.batch4.csf.werewolf.messages.CreateGameResponse;
 import vttp.batch4.csf.werewolf.messages.DeleteGameResponse;
 import vttp.batch4.csf.werewolf.services.GameService;
@@ -90,11 +95,10 @@ public class GameController {
 	@ResponseBody
 	public ResponseEntity<String> postStartGame(@PathVariable String gameId
 			, @PathVariable String name, @RequestBody String payload
-			, @RequestHeader(name=X_SECRET, defaultValue="WXYZ1234") String secret) {
+			, @RequestHeader(name=X_SECRET, defaultValue="wxyz1234") String secret) {
 
 		StartGameRequest req = StartGameRequest.toStartGameRequest(payload);
-		if (req.moderator())
-			req = req.updateStartGameRequest(secret);
+		req = req.updateStartGameRequest(secret);
 
 		StartGameResponse resp;
 
@@ -136,8 +140,11 @@ public class GameController {
 	// Delete a game
 	@DeleteMapping(path="/game/{gameId}/{name}")
 	@ResponseBody
-	public ResponseEntity<String> deletePlayer(@PathVariable String gameId, @PathVariable String name) {
-		boolean result = gameSvc.leaveGame(gameId, name);
+	public ResponseEntity<String> deletePlayer(@PathVariable String gameId, @PathVariable String name
+			, @RequestHeader(name=X_SECRET, defaultValue="wxyz1234") String secret) {
+
+		boolean result = gameSvc.leaveGame(gameId, name, secret);
+
 		LeaveGameResponse resp = new LeaveGameResponse(gameId, "Leave game result: %b".formatted(result));
 		return ResponseEntity.ok(resp.toJson().toString());
 	}
@@ -148,10 +155,13 @@ public class GameController {
 	public ResponseEntity<String> getPlayers(@PathVariable String gameId
 			, @RequestHeader(name=X_SECRET, defaultValue="") String secret) {
 
-		if (secret.trim().length() > 0) {
-		}
+		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+		gameSvc.getPlayers(gameId, secret)
+			.stream()
+			.map(Player::toPlayerSummary)
+			.forEach(j -> arrBuilder.add(j));
 
-		return null;
+		return ResponseEntity.ok(arrBuilder.build().toString());
 	}
 
 

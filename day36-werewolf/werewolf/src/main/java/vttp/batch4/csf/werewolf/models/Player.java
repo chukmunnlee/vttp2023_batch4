@@ -2,6 +2,9 @@ package vttp.batch4.csf.werewolf.models;
 
 import org.bson.Document;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+
 import static vttp.batch4.csf.werewolf.respositories.Constants.*;
 
 public class Player {
@@ -42,9 +45,16 @@ public class Player {
 		return doc;
 	}
 
+	public JsonObject toPlayerSummary() {
+		return Json.createObjectBuilder()
+			.add(F_USERNAME, getUsername())
+			.add(F_ROLE, getRole())
+			.build();
+	}
+
 	@Override
 	public String toString() {
-		return "Player{username=%s, role=%s, dead=%b, players=%s}"
+		return "Player{username=%s, role=%s, dead=%b}"
 			.formatted(username, role, dead);
 	}
 }

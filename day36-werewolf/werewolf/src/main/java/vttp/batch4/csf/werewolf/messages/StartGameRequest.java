@@ -19,8 +19,7 @@ public record StartGameRequest(String gameId, String name, boolean moderator, St
 		JsonObject json = reader.readObject();
 		return new StartGameRequest(
 				json.getString(F_GAMEID, "abcd1234"), 
-				json.getString(F_USERNAME, "fredflintstone"),
-				json.getBoolean(F_MODERATOR, false),
-				"");
+				json.getString(F_USERNAME, "x0x0x0"),
+				json.getBoolean(F_MODERATOR, false), "");
 	}
 }

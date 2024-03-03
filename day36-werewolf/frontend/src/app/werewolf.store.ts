@@ -27,12 +27,16 @@ export class WerewolfStore extends ComponentStore<Game> {
     (_game: Game, value: Game) => value
   )
 
+  readonly updateRole = this.updater<GameRole>(
+    (game: Game, role: GameRole) => ({ ...game, role } as Game)
+  )
+
   readonly deleteGame = this.updater<void>(
     (_game: Game) => INIT_VALUE
   )
 
   readonly startGame = this.updater<void>(
-    (_game: Game) => ({ ..._game, status: GameStatus.Started } as Game)
+    (game: Game) => ({ ...game, status: GameStatus.Started } as Game)
   )
 
 }

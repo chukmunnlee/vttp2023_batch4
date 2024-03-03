@@ -29,7 +29,7 @@ export interface PlayerCountResponse {
 
 export interface StartGameRequest {
   gameId: string
-  name: string
+  username: string
   moderator: boolean
 }
 
@@ -37,7 +37,7 @@ export interface StartGameResponse {
   success: boolean
   message: string
   gameId: string
-  name: string
+  username: string
   role: GameRole
 }
 

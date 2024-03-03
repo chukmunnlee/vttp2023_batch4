@@ -65,19 +65,6 @@ public class GameService {
 		return gameRepo.getGamesAfterTimestamp(fromTime) >= gameInstanceMax;
 	}
 
-	public List<String> injectPlayers(String gameId, int count) {
-		count = count > NAMES.length? MAX_PLAYERS: count;
-		return names.stream().limit(count)
-			.map(name -> {
-				Player player = new Player();
-				player.setUsername(name);
-				return player;
-			})
-			.filter(player -> gameRepo.addPlayerToGame(gameId, player))
-			.map(player -> player.getUsername())
-			.toList();
-	}
-
 	public int getPlayerCountByGameId(String gameId) {
 		Optional<Game> gameOpt = gameRepo.getGameByGameId(gameId);
 		if (gameOpt.isEmpty())
@@ -136,10 +123,12 @@ public class GameService {
 			if (playerCount < 7) 
 				return Optional.of("Less than 7 players. Cannot restart game");
 
+			if (!game.getSecret().equals(req.secret()))
+				return Optional.of("You are not the moderator. Cannot start game");
+
 			// Assign roles to players
 			List<Roles> roles = randomizeRoles(playerCount);
 			boolean result = gameRepo.assignRoles(req.gameId(), req.secret(), roles);
-			System.out.printf(">>> after assignRoles: %b\n", result);
 			
 			// start game
 			gameRepo.startGame(game.getGameId(), req.secret(), true);
@@ -149,19 +138,62 @@ public class GameService {
 		if (!game.isStarted())
 			return Optional.of("Game has not start. Please wait for game to start");
 
+		List<Player> player = game.getPlayers().stream()
+			.filter(p -> p.getUsername().equals(req.name()) && p.getSecret().equals(req.secret()))
+			.limit(1)
+			.toList();
+
+		if (player.size() <= 0)
+			return Optional.of("Cannot find player %s in the game".formatted(req.name()));
+
 		// TODO: Get role and return 
-		String role = "%s%s".formatted(PREFIX_ROLE, "some role");
+		String role = "%s%s".formatted(PREFIX_ROLE, player.get(0).getRole());
 
 		return Optional.of(role);
+	}
+
+	public List<Player> getPlayers(String gameId, String secret) {
+		Optional<Game> opt = gameRepo.getGameByGameId(gameId);
+		if (opt.isEmpty())
+			return List.of();
+
+		Game game = opt.get();
+		boolean role = game.getSecret().equals(secret);
+
+		return game.getPlayers().stream()
+				.map(player -> {
+					Player p = new Player();
+					p.setUsername(player.getUsername());
+					p.setDead(role? player.isDead(): false);
+					p.setRole(role? player.getRole(): "redacted");
+					return p;
+				})
+				.toList();
 	}
 
 	public boolean deleteGame(String gameId, String secret) {
 		return gameRepo.deleteGameByGameId(gameId, secret);
 	}
 
-	public boolean leaveGame(String gameId, String username) {
-		return gameRepo.deletePlayerFromGame(gameId, username);
+	public boolean leaveGame(String gameId, String username, String secret) {
+		return gameRepo.deletePlayerFromGame(gameId, username, secret);
 	}
+
+	// For testing
+	public List<String> injectPlayers(String gameId, int count) {
+		count = count > NAMES.length? MAX_PLAYERS: count;
+		return names.stream().limit(count)
+			.map(name -> {
+				Player player = new Player();
+				player.setUsername(name);
+				player.setSecret("abcd1234");
+				return player;
+			})
+			.filter(player -> gameRepo.addPlayerToGame(gameId, player))
+			.map(player -> player.getUsername())
+			.toList();
+	}
+
 
 	private List<Roles> randomizeRoles(int playerCount) {
 		List<Roles> roles = new LinkedList<>();

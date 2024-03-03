@@ -132,15 +132,16 @@ public class GameRepository {
 
 	/*
 	 * db.games.updateOne(
-	 * 	{ _id: 'abcd1234' },
+	 * 	{ _id: 'abcd1234', secret:  },
 	 * 	{ $pull: { players: { username: 'fred' } } }
 	 * )
 	 */
-	public boolean deletePlayerFromGame(String gameId, String username) {
+	public boolean deletePlayerFromGame(String gameId, String username, String secret) {
 		Criteria criteria = Criteria.where(F_ID).is(gameId);
 		Query query = Query.query(criteria);
 
 		Document user = new Document(F_USERNAME, username);
+		user.put(F_SECRET, secret);
 
 		Update updateOps = new Update()
 			.pull(F_PLAYERS, user);
@@ -185,8 +186,6 @@ public class GameRepository {
 	public boolean assignRoles(String gameId, String secret, List<Roles> roles) {
 		Criteria criteria = Criteria.where(F_ID).is(gameId)
 				.and(F_SECRET).is(secret);
-
-		System.out.printf(">>> roles: %s\n", roles);
 
 		Query query = Query.query(criteria);
 

@@ -7,7 +7,7 @@ import {
   PlayerCountResponse, StartGameRequest, StartGameResponse
 } from "./messages";
 
-import { Game, GameStatus, GameRole } from "./models"
+import { Game, GameStatus, GameRole, stringToGameRole } from "./models"
 import {WerewolfStore} from "./werewolf.store";
 
 @Injectable()
@@ -75,7 +75,7 @@ export class WerewolfService {
         .set('X-SECRET', this.secret)
       const req: StartGameRequest = {
         gameId: this.gameId,
-        name: 'moderator',
+        username: 'moderator',
         moderator: true
       }
     return firstValueFrom(
@@ -84,19 +84,41 @@ export class WerewolfService {
   }
 
   startGameAsPlayer(): Promise<StartGameResponse> {
+    const headers = new HttpHeaders()
+        .set('X-SECRET', this.secret)
     const req: StartGameRequest = {
       gameId: this.gameId,
-      name: this.username,
+      username: this.username,
       moderator: false
     }
     return firstValueFrom(
-      this.http.post<StartGameResponse>(`/api/game/${req.gameId}/${req.name}`, req)
+      this.http.post<any>(`/api/game/${req.gameId}/${req.username}`, req, { headers })
+    ).then(resp => ({
+        success: resp['success'],
+        message: resp['message'],
+        gameId: resp['gameId'],
+        username: resp['username'],
+        role: stringToGameRole(resp['role'] as string)
+    } as StartGameResponse))
+    .then(resp => {
+      this.store.updateRole(resp.role)
+      return resp
+    })
+  }
+
+  getPlayers(): Promise<any> {
+    const headers = new HttpHeaders()
+        .set('X-SECRET', this.secret)
+    return firstValueFrom(
+      this.http.get<any>(`/api/game/${this.gameId}/players`, { headers })
     )
   }
 
   leaveGame(): Promise<any> {
+    const headers = new HttpHeaders()
+        .set('X-SECRET', this.secret)
     return firstValueFrom(
-      this.http.delete<any>(`/api/game/${this.gameId}/${this.username}`)
+      this.http.delete<any>(`/api/game/${this.gameId}/${this.username}`, { headers })
     )
   }
 
